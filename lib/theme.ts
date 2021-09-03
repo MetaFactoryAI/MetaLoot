@@ -9,6 +9,7 @@ export const theme = extendTheme({
   config,
   fonts: {
     heading: '"EB Garamond", serif',
+    mono: 'Jetbrains Mono, monospace',
   },
   colors: {
     gray: {

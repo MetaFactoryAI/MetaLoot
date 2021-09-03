@@ -6,3 +6,10 @@ export type Collectible = {
   openseaLink: string;
   priceString: string;
 };
+
+export type LootMetadata = {
+  name: string;
+  description: string;
+  image: string;
+  synthetic: boolean;
+};

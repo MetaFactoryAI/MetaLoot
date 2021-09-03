@@ -1,52 +1,48 @@
 import { CONFIG } from 'config';
 import { OpenSeaAPI } from 'opensea-js';
 import { OpenSeaAsset, OpenSeaAssetQuery } from 'opensea-js/lib/types';
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import { useWeb3 } from './hooks';
+import { LootMetadata } from './types';
 
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
-export const useHashMasks = (): {
-  data: Array<OpenSeaAsset> | null;
-  loading: boolean;
-} => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const useLoot = () => {
   const { address } = useWeb3();
-  const [data, setData] = useState<Array<OpenSeaAsset> | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function load() {
-      if (address) {
-        setLoading(true);
-        const allData = await fetchHashMasks(address);
-        console.log({ allData });
+  return useQuery(
+    ['openseaLoot', address],
+    async () => {
+      if (!address) return null;
 
-        setData(allData);
-        setLoading(false);
-      }
-    }
-    load();
-  }, [address]);
-
-  return { data, loading };
+      return fetchLoot(address);
+    },
+    { enabled: Boolean(address) },
+  );
 };
 
-const fetchHashMasks = async (owner: string): Promise<Array<OpenSeaAsset>> => {
+const fetchLoot = async (owner: string): Promise<Array<LootMetadata>> => {
   const query = {
     owner,
     limit: 50,
-    asset_contract_address: '0xc2c747e0f7004f9e8817db2ca4997657a7746928',
+    asset_contract_address: '0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7',
   };
-  // eslint-disable-next-line no-await-in-loop
-  return fetchOpenSeaData(query);
+  const data = await fetchOpenSeaData(query);
+
+  return data.map((d) => ({
+    image: d.imageUrl,
+    name: d.name,
+    description: d.description,
+    synthetic: false,
+  }));
 };
 
 const fetchOpenSeaData = async (
   query: OpenSeaAssetQuery,
 ): Promise<Array<OpenSeaAsset>> => {
   const response = await opensea.getAssets(query);
-  console.log({ response });
 
   return response.assets;
 };

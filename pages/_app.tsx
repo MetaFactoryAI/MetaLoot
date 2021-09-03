@@ -1,4 +1,6 @@
-import '@fontsource/eb-garamond/400.css';
+import '@fontsource/eb-garamond/500.css';
+import '@fontsource/eb-garamond/600.css';
+import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/eb-garamond/400-italic.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
@@ -8,12 +10,17 @@ import { theme } from 'lib/theme';
 import { AppProps } from 'next/app';
 import { withUrqlClient } from 'next-urql';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const app: React.FC<AppProps> = ({ pageProps, Component }) => (
   <ChakraProvider theme={theme}>
-    <Web3ContextProvider>
-      <Component {...pageProps} />
-    </Web3ContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <Web3ContextProvider>
+        <Component {...pageProps} />
+      </Web3ContextProvider>
+    </QueryClientProvider>
   </ChakraProvider>
 );
 

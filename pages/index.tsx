@@ -1,12 +1,14 @@
-import { Box, Grid, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { Layout } from 'components/Layout';
 import { LoadingState } from 'components/LoadingState';
 import { InferGetStaticPropsType } from 'next';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { isNotNullOrUndefined } from 'utils/typeHelpers';
 
-import { HashMaskCard } from '../components/HashMaskCard';
+import { LootBagCard } from '../components/LootBagCard';
 import { useWeb3 } from '../lib/hooks';
-import { useHashMasks } from '../lib/useOpenSeaCollectibles';
+import { useLoot } from '../lib/useOpenSeaCollectibles';
+import { useSyntheticLoot } from '../lib/useSyntheticLoot';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -16,54 +18,44 @@ export const getStaticProps = async () => ({
 });
 
 const IndexPage: React.FC<Props> = () => {
-  const { data, loading } = useHashMasks();
-  const { isConnected } = useWeb3();
+  const { data, isLoading } = useLoot();
+  const { isConnected, address, provider } = useWeb3();
+  const synthData = useSyntheticLoot(provider, address);
+
+  const lootData = useMemo(
+    () => [synthData, ...(data || [])].filter(isNotNullOrUndefined),
+    [synthData, data],
+  );
 
   return (
     <Layout>
-      <Box textAlign="center" fontSize="xl">
-        <Grid p={3}>
-          {isConnected ? (
-            <VStack spacing={8}>
-              <LoadingState loading={loading} />
-              {data?.length ? (
-                <SimpleGrid>
-                  {data.map((mask) => (
-                    <HashMaskCard mask={mask} key={mask.tokenId} />
-                  ))}
-                </SimpleGrid>
-              ) : (
-                <Heading size="md">No Hashmasks Found In Wallet</Heading>
-              )}
-              <Text>
-                HashMasks are dope, buy a framed print for $199. <br /> Each
-                Mask can only be printed once, unless the name changes.
-              </Text>
-
-              {/*  <br />
-                <br />
-                <NextChakraLink href="/properties" color="teal.500">
-                  View the properties
-                </NextChakraLink>{' '}
-                to see the Nextjs <Code fontSize="xl">&lt;Link&gt;</Code> in
-                action
-              </Text>
-              <Link
-                color="teal.500"
-                fontSize="2xl"
-                href="https://chakra-ui.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn more about Chakra
-              </Link> */}
-            </VStack>
-          ) : (
-            <Heading as="h2" size="2xl">
-              Loot
-            </Heading>
-          )}
-        </Grid>
+      <Box textAlign="center" my="16">
+        {isConnected && address && provider ? (
+          <Stack spacing={8}>
+            <Text fontFamily="heading" fontSize="3xl">
+              Get loot for your Loot bags for 250 $AGLD.
+            </Text>
+            <LoadingState loading={isLoading} />
+            {lootData?.length ? (
+              <SimpleGrid spacing={6} columns={{ base: 1, md: 2, lg: 3 }}>
+                {lootData.map((loot) => (
+                  <LootBagCard
+                    imageUrl={loot.image}
+                    name={loot.name}
+                    key={loot.name}
+                    synthetic={loot.synthetic}
+                  />
+                ))}
+              </SimpleGrid>
+            ) : (
+              <Heading>No Loot Found In Wallet</Heading>
+            )}
+          </Stack>
+        ) : (
+          <Heading as="h2" size="2xl">
+            Connect Wallet
+          </Heading>
+        )}
       </Box>
     </Layout>
   );
