@@ -30,11 +30,11 @@ const IndexPage: React.FC<Props> = () => {
   return (
     <Layout>
       <Box textAlign="center" my="16">
+        <Heading fontFamily="heading" fontSize="4xl">
+          Premium apparel for your Loot bags
+        </Heading>
         {isConnected && address && provider ? (
           <Stack spacing={8}>
-            <Text fontFamily="heading" fontSize="3xl">
-              Get loot for your Loot bags for 250 $AGLD.
-            </Text>
             <LoadingState loading={isLoading} />
             {lootData?.length ? (
               <SimpleGrid spacing={6} columns={{ base: 1, md: 2, lg: 3 }}>
@@ -52,9 +52,9 @@ const IndexPage: React.FC<Props> = () => {
             )}
           </Stack>
         ) : (
-          <Heading as="h2" size="2xl">
-            Connect Wallet
-          </Heading>
+          <Text mt="10" fontFamily="mono" fontSize="xl" color="gray.500">
+            Connect Wallet to Continue
+          </Text>
         )}
       </Box>
     </Layout>

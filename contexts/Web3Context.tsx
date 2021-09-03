@@ -42,7 +42,7 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
         network: 'mainnet',
         cacheProvider: true,
         providerOptions,
-        theme: 'dark',
+        theme: 'light',
       }),
     );
   }, []);

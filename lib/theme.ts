@@ -1,12 +1,19 @@
 import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 
 const config: ThemeConfig = {
-  initialColorMode: 'dark',
+  initialColorMode: 'light',
   useSystemColorMode: false,
 };
 
 export const theme = extendTheme({
   config,
+  components: {
+    Button: {
+      baseStyle: {
+        borderRadius: 'none',
+      },
+    },
+  },
   fonts: {
     heading: '"EB Garamond", serif',
     mono: 'Jetbrains Mono, monospace',
@@ -20,8 +27,8 @@ export const theme = extendTheme({
       '400': '#969696',
       '500': '#808080',
       '600': '#666666',
-      '700': '#4D4D4D',
-      '800': '#1A1A1A',
+      '700': '#333333',
+      '800': '#212121',
       '900': '#0d0d0d',
     },
   },
