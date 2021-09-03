@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "moduleResolution": "node",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "incremental": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "tsBuildInfoFile": "out/.tsbuildinfo",
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "./@types",
+      "./node_modules/@types"
+    ],
+    "resolveJsonModule": true
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts"
+  ],
+  "exclude": [
+    "out",
+    ".next",
+    "node_modules"
+  ]
+}
