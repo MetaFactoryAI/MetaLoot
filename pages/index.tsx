@@ -1,14 +1,15 @@
 import { Box, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react';
-import { Layout } from 'components/Layout';
-import { LoadingState } from 'components/LoadingState';
 import { InferGetStaticPropsType } from 'next';
 import React, { useMemo } from 'react';
-import { isNotNullOrUndefined } from 'utils/typeHelpers';
 
-import { LootBagCard } from '../components/LootBagCard';
-import { useWeb3 } from '../lib/hooks';
-import { useLoot } from '../lib/useOpenSeaCollectibles';
-import { useSyntheticLoot } from '../lib/useSyntheticLoot';
+import { Layout } from '@/components/Layout';
+import { LoadingState } from '@/components/LoadingState';
+import { LootBagCard } from '@/components/LootBagCard';
+import { useQuery } from '@/graphql-client';
+import { useWeb3 } from '@/lib/hooks';
+import { useLoot } from '@/lib/useOpenSeaCollectibles';
+import { useSyntheticLoot } from '@/lib/useSyntheticLoot';
+import { isNotNullOrUndefined } from '@/utils/typeHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -24,9 +25,16 @@ const IndexPage: React.FC<Props> = () => {
 
   const lootData = useMemo(
     () => [synthData, ...(data || [])].filter(isNotNullOrUndefined),
-    [synthData, data],
+    [data, synthData],
   );
 
+  const query = useQuery();
+
+  const products = query
+    .products({ first: 5 })
+    .edges.map((e) => ({ title: e.node.title, id: e.node.id }));
+
+  console.log(products);
   return (
     <Layout>
       <Box textAlign="center" my="16">
@@ -37,7 +45,14 @@ const IndexPage: React.FC<Props> = () => {
           <Stack spacing={8}>
             <LoadingState loading={isLoading} />
             {lootData?.length ? (
-              <SimpleGrid spacing={6} columns={{ base: 1, md: 2, lg: 3 }}>
+              <SimpleGrid
+                spacing={6}
+                columns={{
+                  base: 1,
+                  md: Math.min(lootData.length, 2),
+                  lg: Math.min(lootData.length, 3),
+                }}
+              >
                 {lootData.map((loot) => (
                   <LootBagCard
                     imageUrl={loot.image}

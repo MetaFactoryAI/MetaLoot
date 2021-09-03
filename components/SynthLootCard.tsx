@@ -2,8 +2,8 @@ import { Box, HStack, Image, Tag, Text } from '@chakra-ui/react';
 import { providers } from 'ethers';
 import React from 'react';
 
-import { useSyntheticLoot } from '../lib/useSyntheticLoot';
-import { formatAddressSmall } from '../utils/addressHelpers';
+import { useSyntheticLoot } from '@/lib/useSyntheticLoot';
+import { formatAddressSmall } from '@/utils/addressHelpers';
 
 type Props = {
   provider: providers.Web3Provider;

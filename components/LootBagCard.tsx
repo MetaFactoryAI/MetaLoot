@@ -15,11 +15,14 @@ export const LootBagCard: React.FC<Props> = ({ imageUrl, name, synthetic }) => {
   const borderColor = useColorModeValue('black', 'black');
 
   return (
-    <Box borderWidth="2px" borderColor={borderColor} overflow="hidden">
+    <Box overflow="hidden" maxW={500} w="100%" justifySelf="center">
       <Image src={imageUrl} />
       <HStack
         align="center"
         justify="space-between"
+        borderWidth={2}
+        borderTopWidth={0}
+        borderColor={borderColor}
         p={4}
         bg={useColorModeValue('white', 'gray.800')}
       >

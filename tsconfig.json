@@ -26,6 +26,11 @@
       "./@types",
       "./node_modules/@types"
     ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+    },
     "resolveJsonModule": true
   },
   "include": [

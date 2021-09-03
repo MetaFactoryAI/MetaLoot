@@ -9,7 +9,7 @@ import NextDocument, {
 } from 'next/document';
 import React from 'react';
 
-import { theme } from '../lib/theme';
+import { theme } from '@/lib/theme';
 
 export default class Document extends NextDocument {
   static getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {

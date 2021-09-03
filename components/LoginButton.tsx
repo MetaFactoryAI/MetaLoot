@@ -2,8 +2,8 @@ import { SmallCloseIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/react';
 import React from 'react';
 
-import { useWeb3 } from '../lib/hooks';
-import { formatAddressSmall } from '../utils/addressHelpers';
+import { useWeb3 } from '@/lib/hooks';
+import { formatAddressSmall } from '@/utils/addressHelpers';
 
 export const LoginButton: React.FC = () => {
   const { connectWeb3, disconnect, address, isConnected } = useWeb3();
@@ -13,6 +13,8 @@ export const LoginButton: React.FC = () => {
       <Button
         onClick={disconnect}
         variant="outline"
+        borderColor="currentColor"
+        borderWidth={2}
         rightIcon={<SmallCloseIcon />}
       >
         {formatAddressSmall(address)}

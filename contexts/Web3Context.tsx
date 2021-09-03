@@ -3,7 +3,7 @@ import { providers } from 'ethers';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import Web3Modal from 'web3modal';
 
-import { CONFIG } from '../config';
+import { CONFIG } from '@/config';
 
 type Web3ContextType = {
   provider?: providers.Web3Provider;

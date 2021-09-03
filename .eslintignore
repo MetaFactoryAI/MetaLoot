@@ -1,0 +1,12 @@
+.next
+
+# jest
+coverage
+
+dist
+
+*.generated.ts
+
+*.config.js
+*.config.cjs
+

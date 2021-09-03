@@ -1,7 +1,8 @@
-import { CONFIG } from 'config';
 import { OpenSeaAPI } from 'opensea-js';
 import { OpenSeaAsset, OpenSeaAssetQuery } from 'opensea-js/lib/types';
 import { useQuery } from 'react-query';
+
+import { CONFIG } from '@/config';
 
 import { useWeb3 } from './hooks';
 import { LootMetadata } from './types';

@@ -11,12 +11,14 @@ export const theme = extendTheme({
     Button: {
       baseStyle: {
         borderRadius: 'none',
+        fontWeight: 'normal',
       },
     },
   },
   fonts: {
     heading: '"EB Garamond", serif',
     mono: 'Jetbrains Mono, monospace',
+    body: 'Jetbrains Mono, monospace',
   },
   colors: {
     gray: {
