@@ -2,8 +2,8 @@ import { Button } from '@chakra-ui/react';
 import React from 'react';
 
 import { CheckoutCreateInput, useMutation } from '@/graphql-client';
-import { useWeb3 } from '@/lib/hooks';
 import { LootMetadata } from '@/lib/types';
+import { useWeb3 } from '@/lib/useWeb3';
 
 type Props = {
   lootBags: LootMetadata[];

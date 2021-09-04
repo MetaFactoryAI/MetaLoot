@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import LootABI from '@/abis/Loot.json';
 import SyntheticLootABI from '@/abis/SyntheticLoot.json';
-import { formatAddressSmall } from '@/utils/addressHelpers';
+import { formatAddressSmall } from '@/lib/addressHelpers';
 
 import { LootMetadata } from './types';
 

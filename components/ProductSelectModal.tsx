@@ -16,7 +16,7 @@ import React, { useRef, useState } from 'react';
 import { RadioButton } from '@/components/RadioButton';
 import { useQuery } from '@/graphql-client';
 import { CheckoutLineItem, LootMetadata } from '@/lib/types';
-import { isNotNullOrUndefined } from '@/utils/typeHelpers';
+import { isNotNullOrUndefined } from '@/lib/typeHelpers';
 
 const LOOT_PRODUCT_HANDLE = 'loot-bag-long-sleeve-shirt';
 

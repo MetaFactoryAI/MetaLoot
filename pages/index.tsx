@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { InferGetStaticPropsType } from 'next';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { BottomBar } from '@/components/BottomBar';
 import { Layout } from '@/components/Layout';
@@ -15,12 +15,12 @@ import { LoadingState } from '@/components/LoadingState';
 import { LootBagCard } from '@/components/LootBagCard';
 import { ProductSelectModal } from '@/components/ProductSelectModal';
 import { CONFIG } from '@/config';
-import { useWeb3 } from '@/lib/hooks';
 import { CheckoutLineItem, LootMetadata } from '@/lib/types';
 import { useLoot } from '@/lib/useOpenSeaCollectibles';
 import { useSyntheticLoot } from '@/lib/useSyntheticLoot';
-import { maybePluralize } from '@/utils/stringHelpers';
-import { isNotNullOrUndefined } from '@/utils/typeHelpers';
+import { useWeb3 } from '@/lib/useWeb3';
+import { maybePluralize } from '@/lib/stringHelpers';
+import { isNotNullOrUndefined } from '@/lib/typeHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -37,6 +37,10 @@ const IndexPage: React.FC<Props> = () => {
   const { isConnected, address, provider } = useWeb3();
   const synthData = useSyntheticLoot(provider, address);
   const modal = useDisclosure();
+
+  useEffect(() => {
+    setLineItems([]);
+  }, [address]);
 
   const lootData = useMemo(
     () => [synthData, ...(data || [])].filter(isNotNullOrUndefined),
@@ -55,7 +59,7 @@ const IndexPage: React.FC<Props> = () => {
 
   return (
     <Layout>
-      <Box textAlign="center" my={[2, 6, 14]}>
+      <Box my={[2, 6, 8]} textAlign="center">
         <Heading fontFamily="heading" fontSize="6xl">
           MetaLoot
         </Heading>
@@ -94,7 +98,7 @@ const IndexPage: React.FC<Props> = () => {
             ) : null}
           </Stack>
         ) : (
-          <Text mt="10" fontFamily="mono" fontSize="xl" color="gray.500">
+          <Text mt="20" fontFamily="mono" fontSize="xl" color="gray.500">
             Connect Wallet to Continue
           </Text>
         )}

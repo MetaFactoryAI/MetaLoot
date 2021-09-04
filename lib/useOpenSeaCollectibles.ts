@@ -4,8 +4,8 @@ import { useQuery } from 'react-query';
 
 import { CONFIG } from '@/config';
 
-import { useWeb3 } from './hooks';
 import { LootMetadata } from './types';
+import { useWeb3 } from './useWeb3';
 
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
