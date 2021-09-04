@@ -1,17 +1,42 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { createIcon, DeleteIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
   HStack,
+  IconButton,
   Image,
+  Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 
-type Props = { imageUrl: string; name: string; synthetic: boolean };
+import { CONFIG } from '@/config';
 
-export const LootBagCard: React.FC<Props> = ({ imageUrl, name, synthetic }) => {
+const AddIcon = createIcon({
+  displayName: 'AddIcon',
+  viewBox: '0 0 95 95',
+  d:
+    'M52.5,0 L52.5,41.5 L95,41.5 L95,53.5 L52.5,53.5 L52.5,95 L40.5,95 L40.5,53.499 L0,53.5 L0,41.5 L40.5,41.499 L40.5,0 L52.5,0 Z',
+});
+
+type Props = {
+  imageUrl: string;
+  name: string;
+  synthetic: boolean;
+  isInCart: boolean;
+  onCraft: () => void;
+  onRemove: () => void;
+};
+
+export const LootBagCard: React.FC<Props> = ({
+  imageUrl,
+  name,
+  synthetic,
+  isInCart,
+  onCraft,
+  onRemove,
+}) => {
   const borderColor = useColorModeValue('black', 'black');
 
   return (
@@ -27,19 +52,30 @@ export const LootBagCard: React.FC<Props> = ({ imageUrl, name, synthetic }) => {
         bg={useColorModeValue('white', 'gray.800')}
       >
         <Box>
-          <Text fontFamily="mono" fontSize="md">
+          <Text fontSize="base" fontWeight="bold">
             {synthetic ? 'Synthetic Bag' : name}
           </Text>
+          <Stack direction="row" align="baseline" spacing={1}>
+            <Text color="gray.500">{CONFIG.itemPrice}</Text>
+            <Text color="gray.500">AGLD</Text>
+          </Stack>
         </Box>
-        <Button
-          borderRadius={0}
-          bg="black"
-          color="white"
-          _hover={{ bg: 'blackAlpha.700' }}
-          rightIcon={<ArrowForwardIcon />}
-        >
-          Forge
-        </Button>
+        {isInCart ? (
+          <IconButton
+            variant="outline"
+            aria-label="Remove From Cart"
+            onClick={onRemove}
+            icon={<DeleteIcon />}
+          />
+        ) : (
+          <Button
+            variant="primary"
+            leftIcon={<AddIcon w={3} h={3} mr={0} />}
+            onClick={onCraft}
+          >
+            Craft
+          </Button>
+        )}
       </HStack>
     </Box>
   );

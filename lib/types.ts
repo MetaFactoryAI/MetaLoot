@@ -8,8 +8,14 @@ export type Collectible = {
 };
 
 export type LootMetadata = {
+  id: string;
   name: string;
   description: string;
   image: string;
   synthetic: boolean;
+};
+
+export type CheckoutLineItem = {
+  variantId: string;
+  lootId: string;
 };

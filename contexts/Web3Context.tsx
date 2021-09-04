@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useEffect, useState } from 'react';
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '@/config';
+import { clearWalletConnect } from '@/lib/storage';
 
 type Web3ContextType = {
   provider?: providers.Web3Provider;
@@ -62,6 +63,8 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
 
   const disconnect = useCallback(async () => {
     web3Modal?.clearCachedProvider();
+    clearWalletConnect();
+
     setAddress(undefined);
     setProvider(undefined);
     setIsConnected(false);

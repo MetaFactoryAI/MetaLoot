@@ -12,9 +12,9 @@ export const LoginButton: React.FC = () => {
     return (
       <Button
         onClick={disconnect}
+        pl={3}
+        pr={2}
         variant="outline"
-        borderColor="currentColor"
-        borderWidth={2}
         rightIcon={<SmallCloseIcon />}
       >
         {formatAddressSmall(address)}

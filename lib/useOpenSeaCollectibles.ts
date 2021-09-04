@@ -33,6 +33,7 @@ const fetchLoot = async (owner: string): Promise<Array<LootMetadata>> => {
   const data = await fetchOpenSeaData(query);
 
   return data.map((d) => ({
+    id: d.name,
     image: d.imageUrl,
     name: d.name,
     description: d.description,

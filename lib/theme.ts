@@ -13,7 +13,34 @@ export const theme = extendTheme({
         borderRadius: 'none',
         fontWeight: 'normal',
       },
+      variants: {
+        outline: {
+          borderWidth: 2,
+          borderColor: 'currentColor',
+        },
+        primary: {
+          bg: 'black',
+          color: 'white',
+          _hover: { bg: 'blackAlpha.700' },
+        },
+        inverted: {
+          bg: 'white',
+          color: 'black',
+          _hover: { bg: 'whiteAlpha.700' },
+        },
+      },
     },
+  },
+  shadows: {
+    bottomBar:
+      'rgba(155, 155, 155, 0.1) 0px 0px 0px 1px, rgba(155, 155, 155, 0.2) 0px 5px 5px, rgba(155, 155, 155, 0.4) 0px 10px 10px',
+    'light-lg':
+      'rgba(100,100,100, 0.1) 0px 0px 0px 0px, rgba(255,255,255, 0.3) 0px 3px 15px, rgba(0,0,0,0.4) 0px 3px 15px',
+  },
+  radii: {
+    base: '0',
+    sm: '0',
+    md: '0',
   },
   fonts: {
     heading: '"EB Garamond", serif',

@@ -1,14 +1,25 @@
-import { Box, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  SimpleGrid,
+  Stack,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { InferGetStaticPropsType } from 'next';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
+import { BottomBar } from '@/components/BottomBar';
 import { Layout } from '@/components/Layout';
 import { LoadingState } from '@/components/LoadingState';
 import { LootBagCard } from '@/components/LootBagCard';
-import { useQuery } from '@/graphql-client';
+import { ProductSelectModal } from '@/components/ProductSelectModal';
+import { CONFIG } from '@/config';
 import { useWeb3 } from '@/lib/hooks';
+import { CheckoutLineItem, LootMetadata } from '@/lib/types';
 import { useLoot } from '@/lib/useOpenSeaCollectibles';
 import { useSyntheticLoot } from '@/lib/useSyntheticLoot';
+import { maybePluralize } from '@/utils/stringHelpers';
 import { isNotNullOrUndefined } from '@/utils/typeHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -19,30 +30,40 @@ export const getStaticProps = async () => ({
 });
 
 const IndexPage: React.FC<Props> = () => {
+  const [selectedBag, setSelectedBag] = useState<LootMetadata>();
+
+  const [lineItems, setLineItems] = useState<CheckoutLineItem[]>([]);
   const { data, isLoading } = useLoot();
   const { isConnected, address, provider } = useWeb3();
   const synthData = useSyntheticLoot(provider, address);
+  const modal = useDisclosure();
 
   const lootData = useMemo(
     () => [synthData, ...(data || [])].filter(isNotNullOrUndefined),
     [data, synthData],
   );
 
-  const query = useQuery();
+  const addLineItem = (item: CheckoutLineItem) => {
+    setLineItems((items) => [...items, item]);
+  };
 
-  const products = query
-    .products({ first: 5 })
-    .edges.map((e) => ({ title: e.node.title, id: e.node.id }));
+  const removeFromCart = (loot: LootMetadata) => {
+    setLineItems((items) => items.filter((i) => i.lootId !== loot.id));
+  };
 
-  console.log(products);
+  const isBottomBarVisible = lineItems.length > 0;
+
   return (
     <Layout>
-      <Box textAlign="center" my="16">
-        <Heading fontFamily="heading" fontSize="4xl">
+      <Box textAlign="center" my={[2, 6, 14]}>
+        <Heading fontFamily="heading" fontSize="6xl">
+          MetaLoot
+        </Heading>
+        <Heading fontFamily="heading" fontSize="2xl" fontWeight="normal">
           Premium apparel for your Loot bags
         </Heading>
         {isConnected && address && provider ? (
-          <Stack spacing={8}>
+          <Stack spacing={8} mt={4}>
             <LoadingState loading={isLoading} />
             {lootData?.length ? (
               <SimpleGrid
@@ -57,20 +78,43 @@ const IndexPage: React.FC<Props> = () => {
                   <LootBagCard
                     imageUrl={loot.image}
                     name={loot.name}
-                    key={loot.name}
+                    key={loot.id}
                     synthetic={loot.synthetic}
+                    isInCart={Boolean(
+                      lineItems.find((i) => i.lootId === loot.id),
+                    )}
+                    onCraft={() => {
+                      setSelectedBag(loot);
+                      modal.onOpen();
+                    }}
+                    onRemove={() => removeFromCart(loot)}
                   />
                 ))}
               </SimpleGrid>
-            ) : (
-              <Heading>No Loot Found In Wallet</Heading>
-            )}
+            ) : null}
           </Stack>
         ) : (
           <Text mt="10" fontFamily="mono" fontSize="xl" color="gray.500">
             Connect Wallet to Continue
           </Text>
         )}
+        <ProductSelectModal
+          isOpen={modal.isOpen}
+          onClose={modal.onClose}
+          selectedBag={selectedBag}
+          addLineItem={addLineItem}
+        />
+        <BottomBar isOpen={isBottomBarVisible}>
+          <Stack spacing={1} alignItems="flex-start">
+            <Heading size="lg" color="white">
+              {maybePluralize(lineItems.length, 'item')} in bag
+            </Heading>
+            <Text size="xl" color="gray.100">
+              {lineItems.length * CONFIG.itemPrice} AGLD
+            </Text>
+          </Stack>
+        </BottomBar>
+        <Box py={isBottomBarVisible ? 16 : 0} />
       </Box>
     </Layout>
   );

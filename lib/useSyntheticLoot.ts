@@ -50,9 +50,11 @@ export const useSyntheticLoot = (
       description: string;
       image: string;
     } = tokenURI && base64Decoder(tokenURI);
+
     if (!data) return undefined;
 
     return {
+      id: data.name,
       image: data.image,
       name: `Bag ${formatAddressSmall(address)}`,
       description: data.description,

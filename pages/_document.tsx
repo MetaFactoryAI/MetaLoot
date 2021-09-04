@@ -23,6 +23,7 @@ export default class Document extends NextDocument {
           <link rel="shortcut icon" href="/favicon.png" />
           <meta charSet="UTF-8" />
         </Head>
+
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
