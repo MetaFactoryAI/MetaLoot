@@ -13,7 +13,8 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
-
+// https://cdn.shopify.com/s/files/1/1204/3352/products/LS_distressedcharcoal_Cover_1024x1024_af5d66ee-e987-45ba-abcd-4b6e722661c4.jpg?v=1625669698
+// https://cdn.shopify.com/s/files/1/1204/3352/products/LSCharcoalBack-min.jpg?v=1625669698
 export const AlertModal: React.FC<Props> = ({ isOpen, onClose }) => (
   <Modal isCentered isOpen={isOpen} onClose={onClose} size="sm">
     <ModalOverlay />

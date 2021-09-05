@@ -1,4 +1,4 @@
-import { Tag } from '@chakra-ui/react';
+import { Tag, useBreakpointValue } from '@chakra-ui/react';
 import { utils } from 'ethers';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export const TokenBalance: React.FC = () => {
   const { address } = useWeb3();
 
   const balance = useAgldBalance();
-
+  const size = useBreakpointValue(['sm', 'md']);
   if (!address) return null;
 
   return (
@@ -20,9 +20,13 @@ export const TokenBalance: React.FC = () => {
       target="_blank"
       colorScheme="yellow"
       fontWeight="bold"
+      textAlign="center"
       borderRadius={4}
+      py={[1, 'initial']}
+      size={size}
+      maxW={[16, 'initial']}
     >
-      {utils.commify(formatNumberWithLength(balance))} AGLD
+      {`${utils.commify(formatNumberWithLength(balance))} AGLD`}
     </Tag>
   );
 };

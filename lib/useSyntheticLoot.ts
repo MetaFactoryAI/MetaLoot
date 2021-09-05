@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { formatAddressSmall } from '@/lib/addressHelpers';
+import { formatAddress } from '@/lib/addressHelpers';
 import { useSyntheticLootContract } from '@/lib/useContracts';
 
 import { LootMetadata } from './types';
@@ -24,7 +24,7 @@ export const useSyntheticLoot = (
     return {
       id: data.name,
       image: data.image,
-      name: `Bag ${formatAddressSmall(address)}`,
+      name: `Bag ${formatAddress(address)}`,
       description: data.description,
       synthetic: true,
     };

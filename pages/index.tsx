@@ -1,6 +1,8 @@
 import {
   Box,
+  Flex,
   Heading,
+  Image,
   SimpleGrid,
   Stack,
   Text,
@@ -14,6 +16,7 @@ import { BottomBar } from '@/components/BottomBar';
 import { Layout } from '@/components/Layout';
 import { LoadingState } from '@/components/LoadingState';
 import { LootBagCard } from '@/components/LootBagCard';
+import { MetaImage } from '@/components/MetaImage';
 import { ProductSelectModal } from '@/components/ProductSelectModal';
 import { CONFIG } from '@/config';
 import { maybePluralize } from '@/lib/stringHelpers';
@@ -23,6 +26,8 @@ import { useAgldBalance } from '@/lib/useContracts';
 import { useLoot } from '@/lib/useOpenSeaCollectibles';
 import { useSyntheticLoot } from '@/lib/useSyntheticLoot';
 import { useWeb3 } from '@/lib/useWeb3';
+import shirtBack from '@/public/shirtBack.png';
+import shirtFront from '@/public/shirtFront.png';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -71,16 +76,62 @@ const IndexPage: React.FC<Props> = () => {
   };
 
   const isBottomBarVisible = lineItems.length > 0;
+  const mockupLoot = selectedBag || synthData;
 
   return (
     <Layout>
-      <Box my={[2, 6, 8]} textAlign="center">
-        <Heading fontFamily="heading" fontSize="6xl">
-          MetaLoot
-        </Heading>
-        <Heading fontFamily="heading" fontSize="2xl" fontWeight="normal">
-          Premium apparel for your Loot bags
-        </Heading>
+      <Box my={[2, 4]}>
+        <SimpleGrid spacing={4} columns={[1, 2]} mt={4} px={4}>
+          <MetaImage
+            src={shirtFront}
+            alt="Loot Shirt Front"
+            placeholder="empty"
+            w="auto"
+            h="auto"
+            objectFit="contain"
+          />
+          <Flex align="center" justify="center" position="relative">
+            <MetaImage
+              src={shirtBack}
+              alt="Loot Shirt Back"
+              placeholder="blur"
+              w="auto"
+              h="auto"
+              objectFit="contain"
+            />
+            {mockupLoot?.image ? (
+              <Image
+                src={mockupLoot.image}
+                ignoreFallback
+                w="65%"
+                h="65%"
+                left="5%"
+                position="absolute"
+                mixBlendMode="exclusion"
+                transform="rotate(90deg)"
+                opacity={0.4}
+              />
+            ) : null}
+            {mockupLoot?.name ? (
+              <Text
+                position="absolute"
+                mixBlendMode="exclusion"
+                opacity={0.3}
+                fontSize={mockupLoot.synthetic ? 'xs' : 'sm'}
+                fontWeight="bold"
+                fontFamily="heading"
+                bottom="10%"
+                left="5%"
+                right={0}
+                textAlign="center"
+                color="white"
+              >
+                {mockupLoot.name.replace('Bag ', '')}
+              </Text>
+            ) : null}
+          </Flex>
+        </SimpleGrid>
+
         {isConnected && address && provider ? (
           <Stack spacing={8} mt={4}>
             <LoadingState loading={isLoading || !lootData.length} />
@@ -88,7 +139,7 @@ const IndexPage: React.FC<Props> = () => {
               spacing={6}
               columns={{
                 base: 1,
-                md: Math.min(lootData.length, 2),
+                sm: Math.min(lootData.length, 2),
                 lg: Math.min(lootData.length, 3),
               }}
             >
@@ -108,9 +159,9 @@ const IndexPage: React.FC<Props> = () => {
             </SimpleGrid>
           </Stack>
         ) : (
-          <Text mt="20" fontFamily="mono" fontSize="xl" color="gray.500">
+          <Heading my="20" color="gray.300" textAlign="center">
             Connect Wallet to Continue
-          </Text>
+          </Heading>
         )}
         <ProductSelectModal
           isOpen={modal.isOpen}

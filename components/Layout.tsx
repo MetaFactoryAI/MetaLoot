@@ -38,7 +38,7 @@ export const Layout: React.FC<Props> = ({
               }}
             >
               <Heading size="lg" pointerEvents="none" mx={[2, 4]}>
-                ML
+                MetaLoot
               </Heading>
             </NextChakraLink>
           </nav>

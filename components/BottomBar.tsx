@@ -9,7 +9,7 @@ type Props = {
 export const BottomBar: React.FC<Props> = ({ isOpen, children }) => (
   <Slide direction="bottom" in={isOpen} style={{ zIndex: 10 }}>
     <Flex
-      shadow="light-lg"
+      shadow={isOpen ? 'light-lg' : 'none'}
       bg="black"
       m={[0, 0, 4]}
       p={[5, 5, 6]}
