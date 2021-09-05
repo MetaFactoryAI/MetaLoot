@@ -12,6 +12,7 @@ type Web3ContextType = {
   disconnect: () => void;
   isConnected: boolean;
   address?: string;
+  ens?: string;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -20,6 +21,7 @@ export const Web3Context = createContext<Web3ContextType>({
   disconnect: () => undefined,
   isConnected: false,
   address: undefined,
+  ens: undefined,
 });
 
 const providerOptions = {
@@ -36,6 +38,7 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
   const [provider, setProvider] = useState<providers.Web3Provider>();
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState<string>();
+  const [ens, setEns] = useState<string>();
 
   useEffect(() => {
     setWeb3Modal(
@@ -55,9 +58,11 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
 
       const ethAddress = await ethersProvider.getSigner().getAddress();
       setAddress(ethAddress);
-
       setProvider(ethersProvider);
       setIsConnected(true);
+
+      const ensData = await ethersProvider.lookupAddress(ethAddress);
+      setEns(ensData);
     }
   }, [web3Modal]);
 
@@ -85,6 +90,7 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
         disconnect,
         isConnected,
         address,
+        ens,
       }}
     >
       {children}

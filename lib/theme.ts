@@ -48,6 +48,18 @@ export const theme = extendTheme({
     body: 'Jetbrains Mono, monospace',
   },
   colors: {
+    yellow: {
+      '50': '#F9F5EB',
+      '100': '#EFE2C7',
+      '200': '#E5CFA3',
+      '300': '#DBBC7F',
+      '400': '#D1A95C',
+      '500': '#C79738',
+      '600': '#9F792D',
+      '700': '#785A21',
+      '800': '#503C16',
+      '900': '#281E0B',
+    },
     gray: {
       '50': '#F2F2F2',
       '100': '#DBDBDB',

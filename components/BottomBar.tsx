@@ -1,5 +1,5 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Slide } from '@chakra-ui/react';
+import { Box, Button, Flex, Slide, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 
 type Props = {
@@ -12,7 +12,7 @@ export const BottomBar: React.FC<Props> = ({ isOpen, children }) => (
       shadow="light-lg"
       bg="black"
       m={[0, 0, 4]}
-      p={[6, 6, 8]}
+      p={[5, 5, 6]}
       justify="space-between"
       align="center"
     >
@@ -20,7 +20,7 @@ export const BottomBar: React.FC<Props> = ({ isOpen, children }) => (
       <Button
         rightIcon={<ArrowForwardIcon />}
         variant="inverted"
-        size="lg"
+        size={useBreakpointValue(['md', 'lg'])}
         justifySelf="flex-end"
       >
         Checkout

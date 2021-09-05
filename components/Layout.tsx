@@ -1,6 +1,8 @@
-import { Container, Flex, Heading } from '@chakra-ui/react';
+import { Container, Flex, Heading, HStack } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { ReactNode } from 'react';
+
+import { TokenBalance } from '@/components/TokenBalance';
 
 import { LoginButton } from './LoginButton';
 import { NextChakraLink } from './NextChakraLink';
@@ -24,7 +26,7 @@ export const Layout: React.FC<Props> = ({
     </Head>
     <Container maxWidth="1200px">
       <header>
-        <Flex py={[3, 4]} justifyContent="space-between" alignItems="baseline">
+        <Flex py={[3, 4]} justifyContent="space-between">
           <nav>
             <NextChakraLink
               href="/"
@@ -40,7 +42,10 @@ export const Layout: React.FC<Props> = ({
               </Heading>
             </NextChakraLink>
           </nav>
-          <LoginButton />
+          <HStack spacing={[2, 4]}>
+            <TokenBalance />
+            <LoginButton />
+          </HStack>
         </Flex>
       </header>
       {children}

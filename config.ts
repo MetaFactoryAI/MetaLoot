@@ -28,5 +28,5 @@ export const CONFIG: IConfig = {
     '781d8466252d47508e177b8637b1c2fd',
   ),
   openseaApiKey: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_API_KEY, ''),
-  itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 150),
+  itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 10000),
 };

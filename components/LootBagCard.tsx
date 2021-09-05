@@ -29,54 +29,49 @@ type Props = {
   onRemove: () => void;
 };
 
-export const LootBagCard: React.FC<Props> = ({
-  imageUrl,
-  name,
-  synthetic,
-  isInCart,
-  onCraft,
-  onRemove,
-}) => {
-  const borderColor = useColorModeValue('black', 'black');
+export const LootBagCard = React.memo<Props>(
+  ({ imageUrl, name, synthetic, isInCart, onCraft, onRemove }) => {
+    const borderColor = useColorModeValue('black', 'black');
 
-  return (
-    <Box overflow="hidden" maxW={500} w="100%" justifySelf="center">
-      <Image src={imageUrl} />
-      <HStack
-        align="center"
-        justify="space-between"
-        borderWidth={2}
-        borderTopWidth={0}
-        borderColor={borderColor}
-        p={4}
-        bg={useColorModeValue('white', 'gray.800')}
-      >
-        <Box>
-          <Text fontSize="base" fontWeight="bold">
-            {synthetic ? 'Synthetic Bag' : name}
-          </Text>
-          <Stack direction="row" align="baseline" spacing={1}>
-            <Text color="gray.500">{CONFIG.itemPrice}</Text>
-            <Text color="gray.500">AGLD</Text>
-          </Stack>
-        </Box>
-        {isInCart ? (
-          <IconButton
-            variant="outline"
-            aria-label="Remove From Cart"
-            onClick={onRemove}
-            icon={<DeleteIcon />}
-          />
-        ) : (
-          <Button
-            variant="primary"
-            leftIcon={<AddIcon w={3} h={3} mr={0} />}
-            onClick={onCraft}
-          >
-            Craft
-          </Button>
-        )}
-      </HStack>
-    </Box>
-  );
-};
+    return (
+      <Box overflow="hidden" maxW={500} w="100%" justifySelf="center">
+        <Image src={imageUrl} />
+        <HStack
+          align="center"
+          justify="space-between"
+          borderWidth={2}
+          borderTopWidth={0}
+          borderColor={borderColor}
+          p={4}
+          bg={useColorModeValue('white', 'gray.800')}
+        >
+          <Box>
+            <Text fontSize="base" fontWeight="bold">
+              {synthetic ? 'Synthetic Bag' : name}
+            </Text>
+            <Stack direction="row" align="baseline" spacing={1}>
+              <Text color="gray.500">{CONFIG.itemPrice}</Text>
+              <Text color="gray.500">AGLD</Text>
+            </Stack>
+          </Box>
+          {isInCart ? (
+            <IconButton
+              variant="outline"
+              aria-label="Remove From Cart"
+              onClick={onRemove}
+              icon={<DeleteIcon />}
+            />
+          ) : (
+            <Button
+              variant="primary"
+              leftIcon={<AddIcon w={3} h={3} mr={0} />}
+              onClick={onCraft}
+            >
+              Craft
+            </Button>
+          )}
+        </HStack>
+      </Box>
+    );
+  },
+);
