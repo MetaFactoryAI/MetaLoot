@@ -19,7 +19,7 @@
     "isolatedModules": true,
     "tsBuildInfoFile": "out/.tsbuildinfo",
     "jsx": "preserve",
-    "baseUrl": ".",
+    "baseUrl": "../..",
     "noEmit": true,
     "esModuleInterop": true,
     "typeRoots": [
@@ -29,7 +29,7 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
+      ]
     },
     "resolveJsonModule": true
   },
