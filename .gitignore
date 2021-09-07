@@ -45,3 +45,12 @@ yarn-error.log*
 
 # vim
 *.swp
+
+## Hardhat files ##
+packages/hardhat/*.txt
+packages/hardhat/cache
+packages/hardhat/artifacts
+packages/hardhat/deployments
+
+packages/frontend/artifacts/build-info
+packages/frontend/artifacts/hardhat
