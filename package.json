@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "yarn workspace metaloot-frontend dev",
+    "lint": "yarn workspace metaloot-frontend lint",
+    "typecheck": "yarn workspace metaloot-frontend lint",
     "build": "yarn workspace metaloot-frontend build",
     "start": "yarn workspace metaloot-frontend start",
     "chain": "yarn workspace metaloot-hardhat chain",
     "deploy": "yarn workspace metaloot-hardhat deploy",
-    "compile": "yarn workspace metaloot-hardhat compile"
+    "compile": "yarn workspace metaloot-hardhat compile",
+    "precommit": "yarn lint-staged",
+    "prepush": "yarn typecheck"
   },
   "workspaces": {
     "packages": [
@@ -18,5 +22,10 @@
       "**/hardhat",
       "**/hardhat/**"
     ]
+  },
+  "devDependencies": {
+    "husky": "7.0.2",
+    "lint-staged": "11.1.2",
+    "typescript": "4.4.2"
   }
 }

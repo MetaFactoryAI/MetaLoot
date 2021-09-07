@@ -16,8 +16,14 @@
     "ecmaVersion": 6
   },
   "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
     "import/resolver": {
-      "typescript": {}
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
     }
   },
   "rules": {
@@ -67,7 +73,7 @@
       }
     },
     {
-      "files": ["./graphql/*.ts", "./lib/hooks.ts"],
+      "files": ["./graphql-client/*.ts", "./lib/hooks.ts"],
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": "off"
       }
