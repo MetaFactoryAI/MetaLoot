@@ -1,0 +1,23 @@
+import { CONFIG } from '@/config';
+
+type NETWORK = 'ropsten' | 'rinkeby' | 'mainnet';
+
+export const NFT_TOKEN_ID = {
+  ropsten:
+    '64942553768983400589157455247501970190874558896252128317908131800434519349509',
+  rinkeby:
+    '64942553768983400589157455247501970190874558896252128321360075264152897624134',
+  mainnet: '',
+}[CONFIG.networkName as NETWORK];
+
+export const NFT_CONTRACT = {
+  ropsten: '0xB11b984D1aa2a534316808baC0412D61ac2b0f2a',
+  rinkeby: '0xC481cb5ecCCdB0510539743F312C5B433F1ED162',
+  mainnet: '0xF09ef55A37240Ac14e26D4AEd76237f18CA98F0D',
+}[CONFIG.networkName as NETWORK];
+
+export const SALE_TOKEN_CONTRACT = {
+  ropsten: '0x101848d5c5bbca18e6b4431eedf6b95e9adf82fa',
+  rinkeby: '0x834068cFfcD40E3d692D8C650ebC3Ee793cAB4bd',
+  mainnet: '0x32353a6c91143bfd6c7d363b546e62a9a2489a20',
+}[CONFIG.networkName as NETWORK];

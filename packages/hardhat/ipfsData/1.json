@@ -1,0 +1,21 @@
+{
+  "name": "ML.01 - BAG",
+  "description": "Luxury Apparel for Your Loot Bags. This token can be burned to redeem a 3D metaverse wearable NFT and a bag of custom 1/1 handcrafted apparel and accessories customized with the items in your Loot bag (synthetic or OG loot). Free shipping worldwide included. Redemptions to open ~October 2021. Contents of bag (subject to change): Hoodie, Pants, Hat, Socks, Belt, Gloves and Drawstring Bag.",
+  "image": "ipfs://QmZpupBDeDM8ck9XCKXJKpAbcXSbrdNLfhmv6yRcbbwHhc",
+  "external_url": "https://loot.metafactory.ai/ml01",
+  "attributes": [
+    {
+      "trait_type": "Website",
+      "value": "https://loot.metafactory.ai"
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Edition",
+      "value": "1"
+    },
+    {
+      "trait_type": "Type",
+      "value": "Redeemable"
+    }
+  ]
+}

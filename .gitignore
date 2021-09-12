@@ -50,7 +50,9 @@ yarn-error.log*
 packages/hardhat/*.txt
 packages/hardhat/cache
 packages/hardhat/artifacts
-packages/hardhat/deployments
+packages/hardhat/typechain
+packages/hardhat/deployments/localhost
+packages/hardhat/deployments/hardhat
 
 packages/frontend/artifacts/build-info
 packages/frontend/artifacts/hardhat

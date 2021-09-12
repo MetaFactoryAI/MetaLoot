@@ -1,4 +1,5 @@
 interface IConfig {
+  networkName: string;
   graphqlURL: string;
   infuraId: string;
   openseaApiKey: string;
@@ -19,6 +20,7 @@ function parseEnv<T extends string | number>(
 }
 
 export const CONFIG: IConfig = {
+  networkName: parseEnv(process.env.NEXT_PUBLIC_NETWORK_NAME, 'rinkeby'),
   graphqlURL: parseEnv(
     process.env.NEXT_PUBLIC_GRAPHQL_URL,
     'http://localhost:8080/v1/graphql',
