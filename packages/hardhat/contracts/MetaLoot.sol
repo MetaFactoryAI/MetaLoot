@@ -9,7 +9,6 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-
 /*
 ╔╦╗┌─┐┌┬┐┌─┐╦  ┌─┐┌─┐┌┬┐
 ║║║├┤  │ ├─┤║  │ ││ │ │
@@ -29,7 +28,12 @@ contract MetaLoot is ERC1155Supply, Ownable {
   // Custom token URIs for each NFT
   mapping(uint256 => string) private _tokenURIs;
 
-  event Activate(uint256 indexed tokenId, address paymentToken, uint256 price, uint256 maxSupply);
+  event Activate(
+    uint256 indexed tokenId,
+    address paymentToken,
+    uint256 price,
+    uint256 maxSupply
+  );
   event Deactivate(uint256 saleTokenId);
 
   constructor(string memory uri_) ERC1155("") {
@@ -64,6 +68,16 @@ contract MetaLoot is ERC1155Supply, Ownable {
   }
 
   /**
+   * @dev Updates tokenURI of `tokenId`.
+   */
+  function updateTokenURI(uint256 tokenId, string memory tokenUri_)
+    external
+    onlyOwner
+  {
+    _setTokenURI(tokenId, tokenUri_);
+  }
+
+  /**
    * @dev Sets `_tokenURI` as the tokenURI of `tokenId`.
    */
   function _setTokenURI(uint256 tokenId, string memory tokenUri_) internal {
@@ -72,9 +86,15 @@ contract MetaLoot is ERC1155Supply, Ownable {
   }
 
   /**
-    * @dev Activate public sale
-    */
-  function activate(address paymentTokenContract_, uint256 salePrice_, uint256 saleTokenId_, string memory tokenURI_, uint256 maxSupply_) external onlyOwner {
+   * @dev Activate public sale
+   */
+  function activate(
+    address paymentTokenContract_,
+    uint256 salePrice_,
+    uint256 saleTokenId_,
+    string memory tokenURI_,
+    uint256 maxSupply_
+  ) external onlyOwner {
     require(!saleActive, "Already active");
     saleActive = true;
     saleTokenId = saleTokenId_;
@@ -129,8 +149,15 @@ contract MetaLoot is ERC1155Supply, Ownable {
   /**
    * @dev mint a new token
    */
-  function mint(address account, uint256 id, uint256 amount, bytes memory data) public onlyOwner {
+  function mint(
+    address account,
+    uint256 id,
+    uint256 amount,
+    string memory tokenUri_,
+    bytes memory data
+  ) external onlyOwner {
     _mint(account, id, amount, data);
+    _setTokenURI(id, tokenUri_);
   }
 
   function burn(

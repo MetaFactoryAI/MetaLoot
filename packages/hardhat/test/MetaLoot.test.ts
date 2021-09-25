@@ -55,13 +55,54 @@ describe("MetaLoot", function () {
     return res;
   };
 
-  it("Allows owner to set URI", async function () {
+  it("Allows owner to set base URI", async function () {
     const { metaLoot } = await setup();
 
     await metaLoot.setBaseURI("newUri");
 
     expect((await metaLoot.baseURI()).toString()).to.equal("newUri");
   });
+
+
+  describe("updateTokenURI", () => {
+    it("should allow owner to updating an existing tokenURI", async function () {
+      const { metaLoot, token } = await setup();
+
+       await metaLoot.activate(
+         token.address,
+         price,
+         mintTokenId,
+         tokenURI,
+         maxSupply
+       );
+
+      expect(await metaLoot.uri(mintTokenId)).to.equal(`${baseURI}${tokenURI}`)
+
+      const updatedURI = 'updatedTokenURI'
+
+      await expect(
+        metaLoot.updateTokenURI(
+          mintTokenId,
+          updatedURI,
+        )
+      ).to.emit(metaLoot, "URI")
+        .withArgs(`${baseURI}${updatedURI}`, mintTokenId);
+
+      expect(await metaLoot.uri(mintTokenId)).to.equal(`${baseURI}${updatedURI}`)
+    });
+
+    it("should disallow non owners to update tokenURIs", async function () {
+      const { users } = await setup();
+
+      await expect(
+        users[0].metaLoot.updateTokenURI(
+          mintTokenId,
+          'updatedURI',
+        )
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+  });
+
 
   describe("activate", () => {
     it("Allows owner to activate public sale", async function () {
@@ -110,6 +151,7 @@ describe("MetaLoot", function () {
         )
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
+
   });
 
   describe("deactivate", () => {
@@ -125,6 +167,48 @@ describe("MetaLoot", function () {
       expect(await metaLoot.saleActive()).to.equal(false);
     });
   });
+
+  describe("activate multiple sales", () => {
+    it("should allow activating a new sale for a new item with a unique tokenURI", async function () {
+      const { metaLoot, token } = await setup();
+
+      await expect(
+        metaLoot.activate(
+          token.address,
+          price,
+          mintTokenId,
+          tokenURI,
+          maxSupply
+        )
+      )
+        .to.emit(metaLoot, "Activate")
+        .withArgs(mintTokenId, token.address, price, maxSupply);
+
+      await expect(metaLoot.deactivate())
+        .to.emit(metaLoot, "Deactivate")
+        .withArgs(mintTokenId);
+
+
+      const mintTokenId2 = 2;
+      const tokenURI2 = 'tokenURI2'
+
+      await expect(
+        metaLoot.activate(
+          token.address,
+          price,
+          mintTokenId2,
+          tokenURI2,
+          maxSupply
+        )
+      ).to.emit(metaLoot, "Activate")
+        .withArgs(mintTokenId2, token.address, price, maxSupply);
+
+       expect(await metaLoot.uri(mintTokenId)).to.equal(`${baseURI}${tokenURI}`)
+       expect(await metaLoot.uri(mintTokenId2)).to.equal(`${baseURI}${tokenURI2}`)
+    });
+
+  });
+
 
   describe("buyMetaLoot", () => {
     it("should revert if sale is not active", async () => {
@@ -245,6 +329,37 @@ describe("MetaLoot", function () {
     });
   });
 
+
+  describe("mint", () => {
+    it("should allow minting of an NFT by the owner", async () => {
+      const { metaLoot, users } = await setupAndActivate();
+
+      await metaLoot.mint(
+        users[0].address,
+        mintTokenId,
+        1,
+        tokenURI,
+        ethers.constants.HashZero
+      );
+      expect(await metaLoot.balanceOf(users[0].address, mintTokenId)).to.equal(
+        1
+      );
+      expect(await metaLoot.uri(mintTokenId)).to.equal(`${baseURI}${tokenURI}`)
+    });
+
+    it("should disallow minting of an NFT by non owners", async () => {
+      const { users } = await setupAndActivate();
+
+      await expect(users[0].metaLoot.mint(
+        users[0].address,
+        mintTokenId,
+        1,
+        tokenURI,
+        ethers.constants.HashZero
+      )).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+  });
+
   describe("burn", () => {
     it("should allow burning of an NFT by its holder", async () => {
       const { metaLoot, users } = await setupAndActivate();
@@ -252,17 +367,18 @@ describe("MetaLoot", function () {
       await metaLoot.mint(
         users[0].address,
         mintTokenId,
-        1,
+        2,
+        tokenURI,
         ethers.constants.HashZero
       );
       expect(await metaLoot.balanceOf(users[0].address, mintTokenId)).to.equal(
-        1
+        2
       );
 
       await users[0].metaLoot.burn(users[0].address, mintTokenId, 1);
 
       expect(await metaLoot.balanceOf(users[0].address, mintTokenId)).to.equal(
-        0
+        1
       );
     });
   });
