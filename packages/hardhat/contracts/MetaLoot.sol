@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts/token/ERC1155/ERC1155.sol';
+import '@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol';
+import '@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 
 /*
 ╔╦╗┌─┐┌┬┐┌─┐╦  ┌─┐┌─┐┌┬┐
@@ -36,7 +36,7 @@ contract MetaLoot is ERC1155Supply, Ownable {
   );
   event Deactivate(uint256 saleTokenId);
 
-  constructor(string memory uri_) ERC1155("") {
+  constructor(string memory uri_) ERC1155('') {
     _baseURI = uri_;
   }
 
@@ -95,7 +95,7 @@ contract MetaLoot is ERC1155Supply, Ownable {
     string memory tokenURI_,
     uint256 maxSupply_
   ) external onlyOwner {
-    require(!saleActive, "Already active");
+    require(!saleActive, 'Already active!');
     saleActive = true;
     saleTokenId = saleTokenId_;
     paymentTokenContract = paymentTokenContract_;
@@ -117,8 +117,8 @@ contract MetaLoot is ERC1155Supply, Ownable {
    * @dev Buy and mint MetaLoot
    */
   function buyMetaLoot(uint256 numItems) external {
-    require(saleActive, "Inactive");
-    require(numItems <= 5 && numItems > 0, "Invalid amount requested");
+    require(saleActive, 'Inactive');
+    require(numItems <= 5 && numItems > 0, 'Invalid amount requested');
 
     IERC20 token = IERC20(paymentTokenContract);
     address self = address(this);
@@ -126,16 +126,16 @@ contract MetaLoot is ERC1155Supply, Ownable {
     uint256 totalAmount = salePrice * numItems;
     require(
       token.allowance(msg.sender, self) >= totalAmount,
-      "Token allowance too low"
+      'Token allowance too low'
     );
 
     uint256 newSupply = ERC1155Supply.totalSupply(saleTokenId) + numItems;
-    require(newSupply <= maxSupply, "Requesting more than max supply");
+    require(newSupply <= maxSupply, 'Requesting more than max supply');
 
     bool sent = token.transferFrom(msg.sender, self, totalAmount);
-    require(sent, "Token transfer failed");
+    require(sent, 'Token transfer failed');
 
-    _mint(msg.sender, saleTokenId, numItems, "");
+    _mint(msg.sender, saleTokenId, numItems, '');
   }
 
   /**
@@ -167,7 +167,7 @@ contract MetaLoot is ERC1155Supply, Ownable {
   ) public {
     require(
       account == _msgSender() || isApprovedForAll(account, _msgSender()),
-      "ERC1155: caller is not owner nor approved"
+      'ERC1155: caller is not owner nor approved'
     );
 
     _burn(account, id, amount);
@@ -180,7 +180,7 @@ contract MetaLoot is ERC1155Supply, Ownable {
   ) public {
     require(
       account == _msgSender() || isApprovedForAll(account, _msgSender()),
-      "ERC1155: caller is not owner nor approved"
+      'ERC1155: caller is not owner nor approved'
     );
 
     _burnBatch(account, ids, amounts);

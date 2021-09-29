@@ -30,10 +30,7 @@ type Props = {
 };
 
 export const LootBagCard = React.memo<Props>(
-  ({ imageUrl, name, synthetic, isInCart, onCraft, onRemove }) => {
-    const borderColor = useColorModeValue('black', 'black');
-
-    return (
+  ({ imageUrl, name, synthetic, isInCart, onCraft, onRemove }) => (
       <Box overflow="hidden" maxW={500} w="100%" justifySelf="center">
         <Image src={imageUrl} />
         <HStack
@@ -41,7 +38,7 @@ export const LootBagCard = React.memo<Props>(
           justify="space-between"
           borderWidth={2}
           borderTopWidth={0}
-          borderColor={borderColor}
+          borderColor='black'
           p={4}
           bg={useColorModeValue('white', 'gray.800')}
         >
@@ -72,6 +69,5 @@ export const LootBagCard = React.memo<Props>(
           )}
         </HStack>
       </Box>
-    );
-  },
+    ),
 );

@@ -1,18 +1,18 @@
 import { SmallCloseIcon } from '@chakra-ui/icons';
 import { Button, useBreakpointValue } from '@chakra-ui/react';
+import { useWallet } from '@meta-cred/usewallet';
 import React from 'react';
 
 import { formatAddressSmall } from '@/lib/addressHelpers';
-import { useWeb3 } from '@/lib/useWeb3';
 
 export const LoginButton: React.FC = () => {
-  const { connectWeb3, disconnect, address, isConnected } = useWeb3();
+  const { connectWallet, disconnectWallet, address, isConnected } = useWallet();
   const size = useBreakpointValue(['sm', 'md']);
 
   if (isConnected && address) {
     return (
       <Button
-        onClick={disconnect}
+        onClick={disconnectWallet}
         pl={[2, 3]}
         pr={[1, 2]}
         h={[8, 10]}
@@ -25,7 +25,7 @@ export const LoginButton: React.FC = () => {
     );
   }
   return (
-    <Button size={size} onClick={connectWeb3}>
+    <Button size={size} onClick={connectWallet}>
       Connect Wallet
     </Button>
   );

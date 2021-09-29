@@ -6,14 +6,15 @@ const func: DeployFunction = async function ({
   getNamedAccounts,
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
+  console.log({deployer});
 
-  await deploy("Box", {
+  await deploy("MetaLoot", {
     from: deployer,
     log: true,
+    args: ["ipfs://"],
   });
 };
 
 export default func;
-func.tags = ["Box"];
+func.tags = ["MetaLoot"];

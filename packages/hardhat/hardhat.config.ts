@@ -30,9 +30,10 @@ const config: HardhatUserConfig = {
     tokenOwner: 2,
     burnAddress: "0x0000000000000000000000000000000000000000",
   },
+  defaultNetwork: 'localhost',
   networks: {
     hardhat: {
-      chainId: 1,
+      chainId: 1337,
       initialBaseFeePerGas: 0,
       accounts: accounts(process.env.HARDHAT_FORK),
       forking: process.env.HARDHAT_FORK
@@ -47,7 +48,8 @@ const config: HardhatUserConfig = {
     },
     localhost: {
       url: node_url("localhost"),
-      accounts: accounts(),
+      accounts: accounts('localhost'),
+      chainId: 1337
     },
     mainnet: {
       url: node_url("mainnet"),

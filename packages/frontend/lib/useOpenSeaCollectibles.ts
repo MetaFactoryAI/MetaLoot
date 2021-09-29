@@ -1,3 +1,4 @@
+import { useWallet } from '@meta-cred/usewallet';
 import { OpenSeaAPI } from 'opensea-js';
 import { OpenSeaAsset, OpenSeaAssetQuery } from 'opensea-js/lib/types';
 import { useQuery } from 'react-query';
@@ -5,13 +6,12 @@ import { useQuery } from 'react-query';
 import { CONFIG } from '@/config';
 
 import { LootMetadata } from './types';
-import { useWeb3 } from './useWeb3';
 
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useLoot = () => {
-  const { address } = useWeb3();
+  const { address } = useWallet();
 
   return useQuery(
     ['openseaLoot', address],

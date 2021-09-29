@@ -2,13 +2,16 @@
   "name": "metaloot-hardhat",
   "private": true,
   "version": "1.0.0",
+  "main": "dist/typechain/index.js",
+  "types": "typechain/index.ts",
   "scripts": {
-    "chain": "npx hardhat node",
+    "chain": "npx hardhat node --network hardhat --no-deploy",
     "compile": "npx hardhat compile",
-    "deploy": "npx hardhat deploy --network localhost --export ../frontend/contracts/contractInfo.json",
-    "test": "npx hardhat test",
+    "deploy": "npx hardhat deploy --export-all ../frontend/contracts/contractInfo.json && yarn build",
+    "test": "npx hardhat test --network hardhat",
     "lint": "solhint 'contracts/**/*.sol'",
-    "prettify": "prettier --write 'contracts/**/*.sol'"
+    "prettify": "prettier --write 'contracts/**/*.sol'",
+    "build": "tsc"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
