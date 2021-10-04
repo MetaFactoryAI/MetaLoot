@@ -92,7 +92,7 @@ export const MetaLootInfo: React.FC = () => {
   const price = unitPrice * numberInputProps.valueAsNumber;
 
   const hasEnoughAllowance =
-    readSalePrice?.data && readAllowance.data?.gte(readSalePrice.data);
+    readSalePrice?.data && readAllowance.data?.gte(price);
 
   const { loading, nft, reload } = useMetaLootData(TOKEN_ID);
 
