@@ -10,14 +10,13 @@ export const theme = extendTheme({
   config,
   components: {
     Modal: {
-      ModalOverlay: {
-        baseStyle: {
+      baseStyle: {
+        overlay: {
           backdropFilter: 'blur(6px)',
-          // bg: 'blackAlpha.300',
+          bg: 'blackAlpha.300',
         },
       },
     },
-
     Button: {
       baseStyle: {
         borderRadius: 'none',

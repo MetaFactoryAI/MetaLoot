@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react';
 
 import { TokenBalance } from '@/components/TokenBalance';
 
-import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { LoginButton } from './LoginButton';
 import { NextChakraLink } from './NextChakraLink';
 
@@ -44,7 +43,6 @@ export const Layout: React.FC<Props> = ({
             </NextChakraLink>
           </nav>
           <HStack spacing={[2, 4]}>
-            <ColorModeSwitcher />
             <TokenBalance />
             <LoginButton />
           </HStack>
