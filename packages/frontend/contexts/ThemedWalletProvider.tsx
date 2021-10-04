@@ -1,14 +1,37 @@
 import { useColorModeValue } from '@chakra-ui/react';
 import { WalletProvider } from '@meta-cred/usewallet';
-import React from 'react';
-import { NftProvider } from 'use-nft';
+import React, { useMemo } from 'react';
 
 import { CONFIG, TARGET_NETWORK } from '@/config';
-import { LocalProvider } from '@/lib/staticProviders';
-import { ipfsUrl } from '@/lib/stringHelpers';
+import { ContractDataProvider } from '@/contexts/ContractDataProvider';
+
+const APP_NAME = 'MetaLoot';
 
 export const ThemedWalletProvider: React.FC = ({ children }) => {
   const isDark = useColorModeValue(false, true);
+
+  const wallets = useMemo(
+    () => [
+      { walletName: 'metamask', preferred: true },
+      {
+        walletName: 'walletConnect',
+        preferred: true,
+        infuraKey: CONFIG.infuraId,
+      },
+      {
+        walletName: 'walletLink',
+        rpcUrl: TARGET_NETWORK.rpcUrl,
+      },
+      {
+        walletName: 'lattice',
+        rpcUrl: TARGET_NETWORK.rpcUrl,
+        appName: APP_NAME,
+      },
+      { walletName: 'torus', appName: APP_NAME, infuraKey: CONFIG.infuraId },
+      { walletName: 'status' },
+    ],
+    [],
+  );
 
   return (
     <WalletProvider
@@ -18,13 +41,16 @@ export const ThemedWalletProvider: React.FC = ({ children }) => {
       rpcUrl={TARGET_NETWORK.rpcUrl}
       darkMode={isDark}
       appName="MetaLoot"
+      customOptions={{
+        networkId: TARGET_NETWORK.chainId,
+        networkName: TARGET_NETWORK.name,
+        walletSelect: {
+          wallets,
+          description: '',
+        },
+      }}
     >
-      <NftProvider
-        ipfsUrl={ipfsUrl}
-        fetcher={['ethers', { provider: LocalProvider }]}
-      >
-        {children}
-      </NftProvider>
+      <ContractDataProvider>{children}</ContractDataProvider>
     </WalletProvider>
   );
 };

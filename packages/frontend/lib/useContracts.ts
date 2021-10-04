@@ -73,13 +73,6 @@ const ContractConfig = {
   },
 };
 
-export const useReadonlyContracts = (
-  chainId = TARGET_NETWORK.chainId,
-  customProvider?: TEthersProviderOrSigner,
-) =>
-  // @ts-expect-error incorrect types in lib
-  useContractLoader(customProvider || LocalProvider, ContractConfig, chainId);
-
 export const useContracts = (
   chainId = TARGET_NETWORK.chainId,
   customProvider?: TEthersProviderOrSigner,
@@ -126,7 +119,7 @@ export const useMetaLootData = (tokenId: string) =>
   useNft(CONTRACT_ADDRESSES.MetaLoot, tokenId);
 
 export const useMetaLootContract = () => {
-  const { provider } = useWallet();
+  const { provider, connectedNetworkId } = useWallet();
 
   return useMemo(
     () =>
@@ -134,12 +127,13 @@ export const useMetaLootContract = () => {
         CONTRACT_ADDRESSES.MetaLoot,
         provider?.getSigner() || LocalProvider,
       ),
-    [provider],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [provider, connectedNetworkId],
   );
 };
 
 export const useAGLDContract = () => {
-  const { provider } = useWallet();
+  const { provider, connectedNetworkId } = useWallet();
 
   return useMemo(
     () =>
@@ -147,7 +141,8 @@ export const useAGLDContract = () => {
         CONTRACT_ADDRESSES.SimpleERC20,
         provider?.getSigner() || LocalProvider,
       ),
-    [provider],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [provider, connectedNetworkId],
   );
 };
 

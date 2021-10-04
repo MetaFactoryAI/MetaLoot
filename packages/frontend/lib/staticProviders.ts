@@ -1,10 +1,11 @@
-import { providers } from 'ethers';
+import { getDefaultProvider, providers } from 'ethers';
 
-import { NETWORKS, TARGET_NETWORK } from '@/config';
+import { CONFIG, NETWORKS, TARGET_NETWORK } from '@/config';
 
-export const LocalProvider = new providers.StaticJsonRpcProvider(
-  TARGET_NETWORK.rpcUrl,
-);
+export const LocalProvider = getDefaultProvider(TARGET_NETWORK.rpcUrl, {
+  infura: CONFIG.infuraId,
+  pocket: CONFIG.poktId,
+});
 export const MainnetProvider = new providers.StaticJsonRpcProvider(
   NETWORKS.mainnet.rpcUrl,
 );
