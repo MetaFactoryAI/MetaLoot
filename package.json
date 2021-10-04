@@ -6,7 +6,9 @@
     "dev": "yarn workspace metaloot-frontend dev",
     "lint": "yarn workspace metaloot-frontend lint",
     "typecheck": "yarn workspace metaloot-frontend lint",
-    "build": "yarn workspace metaloot-frontend build",
+    "build": "run-s build:*",
+    "build:hardhat": "yarn workspace metaloot-hardhat run build",
+    "build:frontend": "yarn workspace metaloot-frontend run build",
     "start": "yarn workspace metaloot-frontend start",
     "chain": "yarn workspace metaloot-hardhat chain",
     "deploy": "yarn workspace metaloot-hardhat deploy",
@@ -26,6 +28,7 @@
   "devDependencies": {
     "husky": "7.0.2",
     "lint-staged": "11.1.2",
+    "npm-run-all": "^4.1.5",
     "typescript": "4.4.2"
   }
 }
