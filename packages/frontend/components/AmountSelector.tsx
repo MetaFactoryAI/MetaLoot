@@ -1,7 +1,7 @@
 import { Button, UseNumberInputReturn, VStack } from '@chakra-ui/react';
 import React from 'react';
 
-type Props = UseNumberInputReturn & {};
+type Props = UseNumberInputReturn;
 
 export const AmountSelector: React.FC<Props> = ({
   getDecrementButtonProps,
