@@ -1,5 +1,5 @@
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { DeployFunction } from "hardhat-deploy/types";
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { DeployFunction } from 'hardhat-deploy/types';
 
 const func: DeployFunction = async function ({
   deployments,
@@ -7,14 +7,13 @@ const func: DeployFunction = async function ({
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
-  console.log({deployer});
 
-  await deploy("MetaLoot", {
+  await deploy('MetaLoot', {
     from: deployer,
     log: true,
-    args: ["ipfs://"],
+    args: ['ipfs://'],
   });
 };
 
 export default func;
-func.tags = ["MetaLoot"];
+func.tags = ['MetaLoot'];

@@ -1,5 +1,10 @@
 import { providers } from 'ethers';
 
-import { TARGET_NETWORK } from '@/config';
+import { NETWORKS, TARGET_NETWORK } from '@/config';
 
-export const LocalProvider = new providers.StaticJsonRpcProvider(TARGET_NETWORK.rpcUrl);
+export const LocalProvider = new providers.StaticJsonRpcProvider(
+  TARGET_NETWORK.rpcUrl,
+);
+export const MainnetProvider = new providers.StaticJsonRpcProvider(
+  NETWORKS.mainnet.rpcUrl,
+);

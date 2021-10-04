@@ -7,7 +7,8 @@
   "scripts": {
     "chain": "npx hardhat node --network hardhat --no-deploy",
     "compile": "npx hardhat compile",
-    "deploy": "npx hardhat deploy --export-all ../frontend/contracts/contractInfo.json && yarn build",
+    "deploy": "npx hardhat deploy --export-all ../frontend/contracts/contractInfo.json",
+    "postdeploy": "yarn build",
     "test": "npx hardhat test --network hardhat",
     "lint": "solhint 'contracts/**/*.sol'",
     "prettify": "prettier --write 'contracts/**/*.sol'",

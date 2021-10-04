@@ -9,6 +9,15 @@ const config: ThemeConfig = {
 export const theme = extendTheme({
   config,
   components: {
+    Modal: {
+      ModalOverlay: {
+        baseStyle: {
+          backdropFilter: 'blur(6px)',
+          // bg: 'blackAlpha.300',
+        },
+      },
+    },
+
     Button: {
       baseStyle: {
         borderRadius: 'none',
@@ -22,7 +31,12 @@ export const theme = extendTheme({
         primary: {
           bg: 'black',
           color: 'white',
-          _hover: { bg: 'blackAlpha.700' },
+          _hover: {
+            bg: 'blackAlpha.700',
+            _disabled: {
+              bg: 'black',
+            },
+          },
         },
         inverted: {
           bg: 'white',
@@ -103,11 +117,10 @@ export const theme = extendTheme({
         fontSize: 'md',
         height: '10',
       },
-      'button.bn-onboard-custom.bn-onboard-prepare-button.bn-onboard-dark-mode-link':
-        {
-          backgroundColor: 'whiteAlpha.100',
-          color: 'blue.400',
-        },
+      'button.bn-onboard-custom.bn-onboard-prepare-button.bn-onboard-dark-mode-link': {
+        backgroundColor: 'whiteAlpha.100',
+        color: 'blue.400',
+      },
       'button.bn-onboard-custom.bn-onboard-icon-button': {
         ...defaultTheme.components.Button.baseStyle,
         borderRadius: 'md',
@@ -119,19 +132,17 @@ export const theme = extendTheme({
           boxShadow: 'none',
         },
       },
-      'button.bn-onboard-custom.bn-onboard-icon-button.bn-onboard-dark-mode-background-hover':
-        {
-          ':hover': {
-            background: 'whiteAlpha.100',
-          },
-        },
-      'button.bn-onboard-custom.bn-onboard-icon-button.bn-onboard-dark-mode-background-hover.bn-onboard-selected-wallet':
-        {
+      'button.bn-onboard-custom.bn-onboard-icon-button.bn-onboard-dark-mode-background-hover': {
+        ':hover': {
           background: 'whiteAlpha.100',
-          ':hover': {
-            background: 'whiteAlpha.200',
-          },
         },
+      },
+      'button.bn-onboard-custom.bn-onboard-icon-button.bn-onboard-dark-mode-background-hover.bn-onboard-selected-wallet': {
+        background: 'whiteAlpha.100',
+        ':hover': {
+          background: 'whiteAlpha.200',
+        },
+      },
       'ul.bn-onboard-custom.bn-onboard-modal-select-wallets': {
         marginBottom: '0px !important',
       },
@@ -148,12 +159,11 @@ export const theme = extendTheme({
         width: '3',
         height: '3',
       },
-      '.bn-onboard-custom.bn-onboard-modal-content-close.bn-onboard-dark-mode-close-background':
-        {
-          ':hover': {
-            background: 'whiteAlpha.100',
-          },
+      '.bn-onboard-custom.bn-onboard-modal-content-close.bn-onboard-dark-mode-close-background': {
+        ':hover': {
+          background: 'whiteAlpha.100',
         },
+      },
       '.bn-onboard-custom.bn-onboard-select-info-container > button': {
         display: 'none',
       },

@@ -3,6 +3,7 @@ interface IConfig {
   graphqlURL: string;
   onboardDappId: string;
   infuraId: string;
+  poktId: string;
   openseaApiKey: string;
   itemPrice: number;
 }
@@ -26,12 +27,10 @@ export const CONFIG: IConfig = {
     process.env.NEXT_PUBLIC_GRAPHQL_URL,
     'http://localhost:8080/v1/graphql',
   ),
-  infuraId: parseEnv(
-    process.env.NEXT_PUBLIC_INFURA_ID,
-    '781d8466252d47508e177b8637b1c2fd',
-  ),
+  infuraId: parseEnv(process.env.NEXT_PUBLIC_INFURA_ID),
+  poktId: parseEnv(process.env.NEXT_PUBLIC_POKT_ID),
   openseaApiKey: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_API_KEY, ''),
-  itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 150),
+  itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 420),
   onboardDappId: parseEnv(process.env.NEXT_PUBLIC_ONBOARD_DAPP_ID, ''),
 };
 
@@ -44,13 +43,15 @@ type NetworkConfig = {
   faucet?: string;
 };
 
-type NetworkName =
+export type NetworkName =
   | 'mainnet'
+  | 'mainnetFork'
   | 'localhost'
   | 'kovan'
   | 'rinkeby'
   | 'ropsten'
-  | 'goerli';
+  | 'goerli'
+  | 'xdai';
 
 export const NETWORKS: Record<NetworkName, NetworkConfig> = {
   localhost: {
@@ -65,7 +66,14 @@ export const NETWORKS: Record<NetworkName, NetworkConfig> = {
     color: '#ff8b9e',
     chainId: 1,
     blockExplorer: 'https://etherscan.io/',
-    rpcUrl: `https://mainnet.infura.io/v3/${CONFIG.infuraId}`,
+    rpcUrl: `https://eth-mainnet.gateway.pokt.network/v1/lb/${CONFIG.poktId}`,
+  },
+  mainnetFork: {
+    name: 'mainnet',
+    color: '#ffc9d1',
+    chainId: 1,
+    blockExplorer: '',
+    rpcUrl: `http://localhost:8545`,
   },
   kovan: {
     name: 'kovan',
@@ -98,6 +106,14 @@ export const NETWORKS: Record<NetworkName, NetworkConfig> = {
     blockExplorer: 'https://goerli.etherscan.io/',
     rpcUrl: `https://goerli.infura.io/v3/${CONFIG.infuraId}`,
     faucet: 'https://goerli-faucet.slock.it/',
+  },
+  xdai: {
+    name: 'xdai',
+    color: '#48a9a6',
+    chainId: 100,
+    blockExplorer: 'https://blockscout.com/xdai/mainnet/',
+    rpcUrl: 'https://dai.poa.network',
+    faucet: 'https://xdai-faucet.top/',
   },
 };
 

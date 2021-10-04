@@ -22,6 +22,8 @@ contract MetaLoot is ERC1155Supply, Ownable {
   uint256 public salePrice;
   bool public saleActive;
 
+  bytes4 private constant _INTERFACE_ID_ROYALTIES_EIP2981 = 0x2a55205a;
+
   // Base URI
   string private _baseURI;
 
@@ -38,6 +40,13 @@ contract MetaLoot is ERC1155Supply, Ownable {
 
   constructor(string memory uri_) ERC1155('') {
     _baseURI = uri_;
+  }
+
+  /**
+   * @dev See {IERC165-supportsInterface}.
+   */
+  function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155) returns (bool) {
+    return ERC1155.supportsInterface(interfaceId) || interfaceId == _INTERFACE_ID_ROYALTIES_EIP2981;
   }
 
   /**
@@ -71,8 +80,8 @@ contract MetaLoot is ERC1155Supply, Ownable {
    * @dev Updates tokenURI of `tokenId`.
    */
   function updateTokenURI(uint256 tokenId, string memory tokenUri_)
-    external
-    onlyOwner
+  external
+  onlyOwner
   {
     _setTokenURI(tokenId, tokenUri_);
   }
@@ -184,5 +193,21 @@ contract MetaLoot is ERC1155Supply, Ownable {
     );
 
     _burnBatch(account, ids, amounts);
+  }
+
+  uint256 private _royaltyBps;
+  address payable private _royaltyRecipient;
+
+  /// @dev Sets token royalties
+  /// @param recipient recipient of the royalties
+  /// @param value percentage (using 2 decimals - 10000 = 100, 0 = 0)
+  function setRoyalties(address payable recipient, uint256 value) internal {
+    require(value <= 10000, 'ERC2981Royalties: Too high');
+    _royaltyRecipient = recipient;
+    _royaltyBps = value;
+  }
+
+  function royaltyInfo(uint256, uint256 value) external view returns (address, uint256) {
+    return (_royaltyRecipient, value * _royaltyBps / 10000);
   }
 }

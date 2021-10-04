@@ -9,7 +9,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { ThemedWalletProvider } from '@/contexts/ThemedWalletProvider';
-import { theme } from '@/lib/theme';
+import { theme } from '@/theme/theme';
 
 const queryClient = new QueryClient();
 

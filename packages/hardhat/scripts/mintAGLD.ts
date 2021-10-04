@@ -1,9 +1,15 @@
-import { deployments, ethers, getNamedAccounts } from "hardhat";
+import { deployments, ethers, getNamedAccounts } from 'hardhat';
 
 async function main() {
   const { deployer, tokenOwner } = await getNamedAccounts();
-  const amount = ethers.utils.parseEther("420");
-  await deployments.execute('SimpleERC20', {from: tokenOwner}, 'mint', deployer, amount)
+  const amount = ethers.utils.parseEther('4200');
+  await deployments.execute(
+    'SimpleERC20',
+    { from: deployer },
+    'mint',
+    deployer,
+    amount,
+  );
 }
 
 main()

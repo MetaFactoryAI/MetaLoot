@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 
 import { TokenBalance } from '@/components/TokenBalance';
 
+import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { LoginButton } from './LoginButton';
 import { NextChakraLink } from './NextChakraLink';
 
@@ -24,7 +25,7 @@ export const Layout: React.FC<Props> = ({
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <Container maxWidth="1200px">
+    <Container maxW="container.lg">
       <header>
         <Flex py={[3, 4]} justifyContent="space-between">
           <nav>
@@ -43,6 +44,7 @@ export const Layout: React.FC<Props> = ({
             </NextChakraLink>
           </nav>
           <HStack spacing={[2, 4]}>
+            <ColorModeSwitcher />
             <TokenBalance />
             <LoginButton />
           </HStack>
