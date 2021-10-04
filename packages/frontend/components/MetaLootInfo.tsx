@@ -132,6 +132,7 @@ export const MetaLootInfo: React.FC = () => {
       setIsApproving(false);
       readAllowance.refetch();
       console.log({ approveRes });
+      if (!approveRes) return;
     }
 
     setIsMinting(true);
