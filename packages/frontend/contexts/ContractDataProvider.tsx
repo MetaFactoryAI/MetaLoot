@@ -6,6 +6,8 @@ import { NftProvider } from 'use-nft';
 import { LocalProvider } from '@/lib/staticProviders';
 import { ipfsUrl } from '@/lib/stringHelpers';
 
+const fetcherConfig = { provider: LocalProvider };
+
 export const ContractDataProvider: React.FC = ({ children }) => {
   const { connectedNetworkId } = useWallet();
   const queryClient = useQueryClient();
@@ -16,10 +18,7 @@ export const ContractDataProvider: React.FC = ({ children }) => {
   }, [queryClient, connectedNetworkId]);
 
   return (
-    <NftProvider
-      ipfsUrl={ipfsUrl}
-      fetcher={['ethers', { provider: LocalProvider }]}
-    >
+    <NftProvider ipfsUrl={ipfsUrl} fetcher={['ethers', fetcherConfig]}>
       {children}
     </NftProvider>
   );

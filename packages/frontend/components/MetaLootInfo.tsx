@@ -12,8 +12,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useWallet } from '@meta-cred/usewallet';
-import { BigNumber } from 'ethers';
-import { formatEther, parseEther } from 'ethers/lib/utils';
+import { BigNumber, ethers } from 'ethers';
+import { formatEther } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
 
 import { AlertModal } from '@/components/AlertModal';
@@ -122,7 +122,10 @@ export const MetaLootInfo: React.FC = () => {
 
     if (!hasEnoughAllowance) {
       setIsApproving(true);
-      const approveTx = agld.approve(metaLoot.address, parseEther('1000'));
+      const approveTx = agld.approve(
+        metaLoot.address,
+        ethers.constants.MaxUint256,
+      );
       const approveRes = await watchTx(approveTx);
       setIsApproving(false);
       readAllowance.refetch();

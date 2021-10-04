@@ -6,6 +6,7 @@ export const LocalProvider = getDefaultProvider(TARGET_NETWORK.rpcUrl, {
   infura: CONFIG.infuraId,
   pocket: CONFIG.poktId,
 });
+
 export const MainnetProvider = new providers.StaticJsonRpcProvider(
   NETWORKS.mainnet.rpcUrl,
 );

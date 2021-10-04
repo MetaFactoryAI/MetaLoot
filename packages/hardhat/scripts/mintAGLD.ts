@@ -2,7 +2,7 @@ import { deployments, ethers, getNamedAccounts } from 'hardhat';
 
 async function main() {
   const { deployer, tokenOwner } = await getNamedAccounts();
-  const amount = ethers.utils.parseEther('4200');
+  const amount = ethers.utils.parseEther('42000');
   await deployments.execute(
     'SimpleERC20',
     { from: deployer },
