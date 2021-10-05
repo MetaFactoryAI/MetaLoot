@@ -33,9 +33,16 @@ const config: HardhatUserConfig = {
     },
   },
   namedAccounts: {
-    deployer: 0,
+    deployer: {
+      default: 0,
+      1: 1,
+      5: 1,
+    },
     buyer: 1,
-    tokenOwner: 2,
+    tokenOwner: {
+      default: 2,
+      5: 1,
+    },
     burnAddress: '0x0000000000000000000000000000000000000000',
   },
   defaultNetwork: 'localhost',
@@ -70,6 +77,10 @@ const config: HardhatUserConfig = {
     ropsten: {
       url: node_url('ropsten'),
       accounts: accounts('ropsten'),
+    },
+    goerli: {
+      url: node_url('goerli'),
+      accounts: accounts('goerli'),
     },
   },
   gasReporter: {

@@ -5,6 +5,7 @@ interface IConfig {
   infuraId: string;
   poktId: string;
   openseaApiKey: string;
+  openseaUrl: string;
   itemPrice: number;
 }
 
@@ -32,6 +33,7 @@ export const CONFIG: IConfig = {
   openseaApiKey: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_API_KEY, ''),
   itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 420),
   onboardDappId: parseEnv(process.env.NEXT_PUBLIC_ONBOARD_DAPP_ID, ''),
+  openseaUrl: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_URL, ''),
 };
 
 type NetworkConfig = {

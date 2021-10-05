@@ -5,7 +5,7 @@ async function main() {
   const amount = ethers.utils.parseEther('42000');
   await deployments.execute(
     'SimpleERC20',
-    { from: deployer },
+    { from: tokenOwner },
     'mint',
     deployer,
     amount,

@@ -4,12 +4,12 @@ async function main() {
   const { deployer } = await getNamedAccounts();
   console.log({ deployer });
   const Token = await deployments.get('SimpleERC20');
-  const price = ethers.utils.parseEther('690');
+  const price = ethers.utils.parseEther('420');
   const mintTokenId = 1;
-  const tokenURI = 'ipfs/QmNo5rYmdwBzFNhiEB1n5YcMjgBRGZ1qqSffPWgoWsv7bJ';
-  const maxSupply = 50;
-  // const tokenAddress = '0x32353A6C91143bfd6C7d363B546e62a9A2489A20';
-  const tokenAddress = Token.address;
+  const tokenURI = 'ipfs/QmQdBjWPwKFBF5i6j5hBng5zeBpRHUZ7YtFv4ZFftp4Rr1';
+  const maxSupply = 420;
+  const tokenAddress = '0x32353A6C91143bfd6C7d363B546e62a9A2489A20';
+  // const tokenAddress = Token.address;
   console.log({ tokenAddress });
   // const deactivateRes = await deployments.execute(
   //   'MetaLoot',
