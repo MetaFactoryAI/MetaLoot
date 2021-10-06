@@ -29,7 +29,7 @@ export const Layout: React.FC<Props> = ({
       <meta
         property="og:image"
         content="https://loot.metafactory.ai/banner.png"
-        key="ogdesc"
+        key="ogimage"
       />
       <meta name="twitter:creator" content="@TheMetaFactory" key="twhandle" />
       <meta charSet="utf-8" />
