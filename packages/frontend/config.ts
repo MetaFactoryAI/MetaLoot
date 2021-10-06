@@ -68,7 +68,7 @@ export const NETWORKS: Record<NetworkName, NetworkConfig> = {
     color: '#ff8b9e',
     chainId: 1,
     blockExplorer: 'https://etherscan.io/',
-    rpcUrl: `https://eth-mainnet.gateway.pokt.network/v1/lb/${CONFIG.poktId}`,
+    rpcUrl: `https://mainnet.infura.io/v3/${CONFIG.infuraId}`,
   },
   mainnetFork: {
     name: 'mainnet',

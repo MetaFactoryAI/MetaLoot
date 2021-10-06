@@ -11,16 +11,27 @@ type Props = {
   children?: ReactNode;
   stickyBottom?: ReactNode;
   title?: string;
+  description?: string;
 };
 
 export const Layout: React.FC<Props> = ({
   children,
   stickyBottom,
   title = 'MetaLoot',
+  description = 'Premium Apparel for Adventurers',
 }) => (
   <div>
     <Head>
       <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta property="og:title" content={title} key="ogtitle" />
+      <meta property="og:description" content={description} key="ogdesc" />
+      <meta
+        property="og:image"
+        content="https://loot.metafactory.ai/banner.png"
+        key="ogdesc"
+      />
+      <meta name="twitter:creator" content="@TheMetaFactory" key="twhandle" />
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>

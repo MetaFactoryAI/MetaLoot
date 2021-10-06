@@ -17,17 +17,17 @@ async function main() {
   //   'deactivate',
   // );
   // console.log({ deactivateRes });
-
-  const activateRes = await deployments.execute(
-    'MetaLoot',
-    { from: deployer },
-    'activate',
-    tokenAddress,
-    price,
-    mintTokenId,
-    tokenURI,
-    maxSupply,
-  );
+  console.log({ price: price.toString() });
+  // const activateRes = await deployments.execute(
+  //   'MetaLoot',
+  //   { from: deployer },
+  //   'activate',
+  //   tokenAddress,
+  //   price,
+  //   mintTokenId,
+  //   tokenURI,
+  //   maxSupply,
+  // );
   //
   // const activateRes = await deployments.execute(
   //   'MetaLoot',
@@ -36,7 +36,7 @@ async function main() {
   //   mintTokenId,
   //   tokenURI,
   // );
-  console.log({ activateRes });
+  // console.log({ activateRes });
 }
 
 main()

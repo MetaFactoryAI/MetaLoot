@@ -224,7 +224,7 @@ export const MetaLootInfo: React.FC = () => {
       </GridItem>
       <GridItem colSpan={2} py={10} px={[5, 5, 10]}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video autoPlay loop>
+        <video autoPlay loop poster="bag.png">
           <source
             src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE"
             type="video/mp4"

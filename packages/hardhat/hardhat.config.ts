@@ -41,6 +41,7 @@ const config: HardhatUserConfig = {
     buyer: 1,
     tokenOwner: {
       default: 2,
+      1: 1,
       5: 1,
     },
     burnAddress: '0x0000000000000000000000000000000000000000',
