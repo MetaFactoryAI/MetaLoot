@@ -34,6 +34,10 @@ import { useTransactor } from '@/lib/useTransactor';
 
 import { AmountSelector } from './AmountSelector';
 
+const DESCRIPTIION = `Luxury apparel for your Loot Bags. This token can be burned to craft a physical bag of 1/1 handcrafted apparel/accessories custom embroidered with the adventurer gear in your Loot Bag; plus a 3D metaverse wearable NFT. Synthetic or OG Loot. Free shipping worldwide included.`;
+
+const DESCRIPTIION2 = `Physical Content: Drawstring Bag, Hoodie, Sweatants, Hat, Socks, Gaiter, Gloves. 3D Wearable NFTs available Q1'22.`;
+
 export const MetaLootInfo: React.FC = () => {
   const [isApproving, setIsApproving] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
@@ -132,7 +136,6 @@ export const MetaLootInfo: React.FC = () => {
       const approveRes = await watchTx(approveTx);
       setIsApproving(false);
       readAllowance.refetch();
-      console.log({ approveRes });
       if (!approveRes) return;
     }
 
@@ -169,7 +172,8 @@ export const MetaLootInfo: React.FC = () => {
       <GridItem colSpan={[2, 2, 1]}>
         <VStack spacing={6} align="flex-start">
           <Heading>{nft.name}</Heading>
-          <Text>{nft.description}</Text>
+          <Text>{DESCRIPTIION}</Text>
+          <Text>{DESCRIPTIION2}</Text>
           <HStack w="100%">
             <Button
               disabled={mintButtonDisabled}
@@ -230,10 +234,8 @@ export const MetaLootInfo: React.FC = () => {
           </NextChakraLink>
         </VStack>
       </GridItem>
-      <GridItem colSpan={2} align="center" mt={10}>
-        <Image src="flatlay.png" />
-      </GridItem>
-      <GridItem colSpan={2} py={10} px={[5, 5, 10]}>
+
+      <GridItem colSpan={2} px={[5, 5, 10]}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video autoPlay loop poster="bag.png">
           <source
@@ -241,6 +243,9 @@ export const MetaLootInfo: React.FC = () => {
             type="video/mp4"
           />
         </video>
+      </GridItem>
+      <GridItem colSpan={2} py={10} align="center">
+        <Image src="flatlay.png" />
       </GridItem>
       <GridItem colSpan={2} align="center" p={6} pb="16">
         <HStack spacing={6}>
