@@ -40,6 +40,7 @@ export const findOrderWithTxHash = (
 
 export const getMetaLootOrderForTxHash = async (burnTxHash: string) => {
   const res = await adminClient.request(metaLootOrdersQuery);
+
   let existingOrder = findOrderWithTxHash(res.orders.edges, burnTxHash);
   if (existingOrder) {
     return existingOrder.node;

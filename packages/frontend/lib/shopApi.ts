@@ -34,7 +34,7 @@ export const useCheckout = (checkoutId: string | null | undefined) =>
       return res.node;
     },
     {
-      refetchInterval: checkoutId ? 1000 : false,
+      refetchInterval: checkoutId ? 5000 : false,
     },
   );
 
