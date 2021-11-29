@@ -20,6 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { AlertModal } from '@/components/AlertModal';
 import { EmptyState } from '@/components/EmptyState';
 import { LoadingState } from '@/components/LoadingState';
+import { NextChakraLink } from '@/components/NextChakraLink';
 import { CONFIG, TARGET_NETWORK } from '@/config';
 import { maybePluralize } from '@/lib/stringHelpers';
 import {
@@ -32,8 +33,6 @@ import {
 import { useTransactor } from '@/lib/useTransactor';
 
 import { AmountSelector } from './AmountSelector';
-
-const TOKEN_ID = '1';
 
 export const MetaLootInfo: React.FC = () => {
   const [isApproving, setIsApproving] = useState(false);
@@ -74,7 +73,7 @@ export const MetaLootInfo: React.FC = () => {
   const readTotalSupply = useTypedContractReader(
     metaLoot,
     'totalSupply',
-    TOKEN_ID,
+    CONFIG.redeemTokenId,
   )({ refetchInterval: 5000 });
   const readMaxSupply = useTypedContractReader(metaLoot, 'maxSupply')();
 
@@ -82,7 +81,7 @@ export const MetaLootInfo: React.FC = () => {
     metaLoot,
     'balanceOf',
     address || '',
-    TOKEN_ID,
+    CONFIG.redeemTokenId,
   )();
 
   const unitPrice =
@@ -98,7 +97,7 @@ export const MetaLootInfo: React.FC = () => {
 
   const hasEnoughAllowance = allowance >= price;
 
-  const { loading, nft, reload } = useMetaLootData(TOKEN_ID);
+  const { loading, nft, reload } = useMetaLootData(CONFIG.redeemTokenId);
 
   useEffect(() => {
     reload();
@@ -207,16 +206,28 @@ export const MetaLootInfo: React.FC = () => {
             />
           </HStack>
 
-          <Button disabled onClick={onMint} w="100%" p={8} fontStyle="italic">
-            <Flex direction="column">
-              <Text>REDEMPTION COMING SOON</Text>
-              {numOwned ? (
+          <NextChakraLink
+            href="/redeem"
+            _hover={{
+              textDecoration: 'none',
+            }}
+            w="100%"
+          >
+            <Button
+              disabled={!numOwned}
+              w="100%"
+              p={8}
+              fontStyle={!numOwned ? 'italic' : undefined}
+              variant="outline"
+            >
+              <Flex direction="column">
+                <Text>CRAFT METALOOT</Text>
                 <Text fontSize="sm" color="yellow.700" mt={1}>
                   {`You have ${maybePluralize(numOwned, 'bag')}`}
                 </Text>
-              ) : null}
-            </Flex>
-          </Button>
+              </Flex>
+            </Button>
+          </NextChakraLink>
         </VStack>
       </GridItem>
       <GridItem colSpan={2} align="center" mt={10}>

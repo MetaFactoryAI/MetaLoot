@@ -1,12 +1,19 @@
 interface IConfig {
+  appUrl: string;
   networkName: string;
-  graphqlURL: string;
   onboardDappId: string;
   infuraId: string;
   poktId: string;
+  shopEndpoint: string;
+  shopAccessToken: string;
+  shopAdminEndpoint: string;
+  shopAdminToken: string;
   openseaApiKey: string;
   openseaUrl: string;
+  metalootProductHandle: string;
+  metalootVariantId: string;
   itemPrice: number;
+  redeemTokenId: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -23,18 +30,29 @@ function parseEnv<T extends string | number>(
 }
 
 export const CONFIG: IConfig = {
+  appUrl: parseEnv(process.env.NEXT_PUBLIC_VERCEL_URL, 'localhost:3000'),
+  redeemTokenId: parseEnv(process.env.NEXT_PUBLIC_REDEEM_TOKEN_ID, '1'),
   networkName: parseEnv(process.env.NEXT_PUBLIC_NETWORK_NAME, 'localhost'),
-  graphqlURL: parseEnv(
-    process.env.NEXT_PUBLIC_GRAPHQL_URL,
-    'http://localhost:8080/v1/graphql',
-  ),
+  shopEndpoint: parseEnv(process.env.NEXT_PUBLIC_SHOP_ENDPOINT, ''),
+  shopAccessToken: parseEnv(process.env.NEXT_PUBLIC_SHOP_ACCESS_TOKEN, ''),
+  shopAdminEndpoint: parseEnv(process.env.SHOP_ADMIN_ENDPOINT, ''),
+  shopAdminToken: parseEnv(process.env.SHOP_ADMIN_TOKEN, ''),
   infuraId: parseEnv(process.env.NEXT_PUBLIC_INFURA_ID),
   poktId: parseEnv(process.env.NEXT_PUBLIC_POKT_ID),
   openseaApiKey: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_API_KEY, ''),
+  metalootProductHandle: parseEnv(
+    process.env.NEXT_PUBLIC_METALOOT_PRODUCT_HANDLE,
+    '',
+  ),
+  metalootVariantId: parseEnv(process.env.METALOOT_VARIANT_ID, ''),
   itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 420),
   onboardDappId: parseEnv(process.env.NEXT_PUBLIC_ONBOARD_DAPP_ID, ''),
   openseaUrl: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_URL, ''),
 };
+
+export const NEXTJS_API_BASE_URL = CONFIG.appUrl.includes('localhost')
+  ? `http://${CONFIG.appUrl}`
+  : `https://${CONFIG.appUrl}`;
 
 type NetworkConfig = {
   name: NetworkName;

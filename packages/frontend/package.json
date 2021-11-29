@@ -23,8 +23,9 @@
     "@fontsource/eb-garamond": "^4.5.0",
     "@fontsource/jetbrains-mono": "4.5.0",
     "@gqless/react": "2.0.15",
-    "@meta-cred/usewallet": "0.1.18",
     "@meta-cred/ui": "0.1.2",
+    "@meta-cred/usewallet": "0.1.18",
+    "@meta-cred/utils": "^0.1.1",
     "bnc-notify": "^1.9.1",
     "eth-hooks": "2.3.9",
     "ethers": "5.4.6",
@@ -32,7 +33,8 @@
     "faker": "5.5.3",
     "framer-motion": "4.1.17",
     "gqless": "^2.0.14",
-    "graphql": "^15.5.2",
+    "graphql": "^16.0.1",
+    "graphql-request": "^3.6.1",
     "isomorphic-unfetch": "3.1.0",
     "lodash": "^4.17.21",
     "metaloot-hardhat": "*",
@@ -49,7 +51,8 @@
     "react-query": "^3.21.1",
     "ts-toolbelt": "^9.6.0",
     "use-nft": "0.10.1",
-    "web3": "^1.5.2"
+    "web3": "^1.5.2",
+    "zustand": "^3.6.5"
   },
   "devDependencies": {
     "@gqless/cli": "^2.0.16",

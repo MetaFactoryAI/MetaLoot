@@ -1,4 +1,3 @@
-import { useWallet } from '@meta-cred/usewallet';
 import { OpenSeaAPI } from 'opensea-js';
 import { OpenSeaAsset, OpenSeaAssetQuery } from 'opensea-js/lib/types';
 import { useQuery } from 'react-query';
@@ -10,10 +9,8 @@ import { LootMetadata } from './types';
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useLoot = () => {
-  const { address } = useWallet();
-
-  return useQuery(
+export const useLoot = (address: string | null) =>
+  useQuery(
     ['openseaLoot', address],
     async () => {
       if (!address) return null;
@@ -22,7 +19,6 @@ export const useLoot = () => {
     },
     { enabled: Boolean(address) },
   );
-};
 
 const fetchLoot = async (owner: string): Promise<Array<LootMetadata>> => {
   const query = {

@@ -83,31 +83,33 @@ export const useContracts = (
   return useContractLoader(customProvider || provider, ContractConfig, chainId);
 };
 
-export const createContractReader = (
-  contractName: ContractNames,
-  chainId = TARGET_NETWORK.chainId,
-  customProvider?: TEthersProviderOrSigner,
-) => <T>(
-  functionName: string,
-  functionArgs?: unknown[],
-  options?: {
-    pollTime?: number | undefined;
-    formatter?: (_value: T) => T;
-    onChange?: (_value?: T | undefined) => void;
-  },
-) => {
-  const contracts = useContracts(chainId, customProvider);
+export const createContractReader =
+  (
+    contractName: ContractNames,
+    chainId = TARGET_NETWORK.chainId,
+    customProvider?: TEthersProviderOrSigner,
+  ) =>
+  <T>(
+    functionName: string,
+    functionArgs?: unknown[],
+    options?: {
+      pollTime?: number | undefined;
+      formatter?: (_value: T) => T;
+      onChange?: (_value?: T | undefined) => void;
+    },
+  ) => {
+    const contracts = useContracts(chainId, customProvider);
 
-  return useContractReader<T>(
-    contracts,
-    contractName,
-    functionName,
-    functionArgs,
-    options?.pollTime,
-    options?.formatter,
-    options?.onChange,
-  );
-};
+    return useContractReader<T>(
+      contracts,
+      contractName,
+      functionName,
+      functionArgs,
+      options?.pollTime,
+      options?.formatter,
+      options?.onChange,
+    );
+  };
 
 export const useSyntheticLootReader = createContractReader(
   ContractNames.S_LOOT,
@@ -154,28 +156,30 @@ type Fn<T, K extends keyof T> = T[K] extends (...args: any) => any
 
 type TypedContractReader<TContract extends BaseContract> = <
   Method extends keyof TContract,
-  TResult extends UnwrapPromise<ReturnType<Fn<TContract, Method>>>
+  TResult extends UnwrapPromise<ReturnType<Fn<TContract, Method>>>,
 >(
   method: Method,
   ...args: Parameters<Fn<TContract, Method>>
 ) => UseQueryResult<TResult>;
 
-export const useTypedContractReader = <
-  TContract extends BaseContract,
-  Method extends keyof TContract,
-  TResult extends UnwrapPromise<ReturnType<Fn<TContract, Method>>>
->(
-  contract: TContract,
-  method: Method,
-  ...args: Parameters<Fn<TContract, Method>>
-) => (options?: UseQueryOptions<TResult>) =>
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useQuery(
-    [contract.address, method, ...args],
-    // @ts-expect-error complains about Parameters not being a tuple but array is fine
-    async () => contract[method](...args) as Promise<TResult>,
-    options,
-  );
+export const useTypedContractReader =
+  <
+    TContract extends BaseContract,
+    Method extends keyof TContract,
+    TResult extends UnwrapPromise<ReturnType<Fn<TContract, Method>>>,
+  >(
+    contract: TContract,
+    method: Method,
+    ...args: Parameters<Fn<TContract, Method>>
+  ) =>
+  (options?: UseQueryOptions<TResult>) =>
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useQuery(
+      [contract.address, method, ...args],
+      // @ts-expect-error complains about Parameters not being a tuple but array is fine
+      async () => contract[method](...args) as Promise<TResult>,
+      options,
+    );
 
 export const useMetaLootReader: TypedContractReader<MetaLoot> = (
   method,

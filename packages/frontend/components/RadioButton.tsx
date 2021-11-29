@@ -17,7 +17,7 @@ export const RadioButton: React.FC<Props> = (props) => {
         transitionProperty="common"
         transitionDuration="normal"
         cursor="pointer"
-        width={12}
+        minWidth={12}
         fontSize="lg"
         textAlign="center"
         _checked={{

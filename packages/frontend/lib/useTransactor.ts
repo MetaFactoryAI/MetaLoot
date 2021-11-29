@@ -3,12 +3,12 @@ import {
   TransactionReceipt,
   TransactionResponse,
 } from '@ethersproject/providers';
-import Notify from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersProviderOrSigner } from 'eth-hooks/models';
 import { useEffect, useMemo, useState } from 'react';
 
-import { CONFIG, NetworkName, NETWORKS, TARGET_NETWORK } from '@/config';
+import { NetworkName, NETWORKS } from '@/config';
+import { getNotifyAPI } from '@/lib/notify';
 
 const isCompatibleNetwork = (networkId: number) =>
   [1, 3, 4, 5, 42, 100].includes(networkId);
@@ -20,19 +20,7 @@ export const useTransactor = (
   const [pending, setPending] = useState(false);
   const isDark = useColorModeValue(false, true);
 
-  const notify = useMemo(
-    () =>
-      Notify({
-        dappId: CONFIG.onboardDappId,
-        system: 'ethereum',
-        networkId: TARGET_NETWORK.chainId,
-        darkMode: false,
-        transactionHandler: (txInformation): void => {
-          console.log('HANDLE TX', txInformation);
-        },
-      }),
-    [],
-  );
+  const notify = useMemo(getNotifyAPI, []);
 
   useEffect(() => {
     notify.config({ darkMode: isDark });
@@ -75,9 +63,8 @@ export const useTransactor = (
         const listeningInterval = setInterval(async (): Promise<void> => {
           if (!result?.hash) return;
 
-          const currentTransactionReceipt = await provider?.getTransactionReceipt(
-            result.hash,
-          );
+          const currentTransactionReceipt =
+            await provider?.getTransactionReceipt(result.hash);
           if (currentTransactionReceipt?.confirmations) {
             notify.notification({
               message: 'Transaction Confirmed!',
