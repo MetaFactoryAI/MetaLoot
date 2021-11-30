@@ -34,9 +34,9 @@ import { useTransactor } from '@/lib/useTransactor';
 
 import { AmountSelector } from './AmountSelector';
 
-const DESCRIPTIION = `Luxury apparel for your Loot Bags. This token can be burned to craft a physical bag of 1/1 handcrafted apparel/accessories custom embroidered with the adventurer gear in your Loot Bag; plus a 3D metaverse wearable NFT. Synthetic or OG Loot. Free shipping worldwide included.`;
+const DESCRIPTIION = `Luxury apparel for your Loot Bags. This token can be burned to craft a physical bag of 1/1 handcrafted apparel/accessories custom embroidered with the adventurer gear in your Loot Bag. Synthetic or OG Loot. Free shipping worldwide.`;
 
-const DESCRIPTIION2 = `Physical Content: Drawstring Bag, Hoodie, Sweatants, Hat, Socks, Gaiter, Gloves. 3D Wearable NFTs available Q1'22.`;
+const DESCRIPTIION2 = `Physical Content: Drawstring Bag, Hoodie, Sweatpants, Hat, Socks, Gaiter, Gloves. 3D Wearable NFTs available Q1'22.`;
 
 export const MetaLootInfo: React.FC = () => {
   const [isApproving, setIsApproving] = useState(false);
@@ -166,7 +166,14 @@ export const MetaLootInfo: React.FC = () => {
       mx={[4, 4, 2]}
     >
       <GridItem colSpan={[2, 2, 1]}>
-        <Image src="bag.png" maxW={[350, 400, 500]} />
+        {/*   eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video autoPlay loop poster="bag.png">
+          <source
+            src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE"
+            type="video/mp4"
+          />
+        </video>
+        {/* <Image src="bag.png" maxW={[350, 400, 500]} /> */}
       </GridItem>
 
       <GridItem colSpan={[2, 2, 1]}>
@@ -235,17 +242,17 @@ export const MetaLootInfo: React.FC = () => {
         </VStack>
       </GridItem>
 
-      <GridItem colSpan={2} px={[5, 5, 10]}>
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video autoPlay loop poster="bag.png">
-          <source
-            src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE"
-            type="video/mp4"
-          />
-        </video>
-      </GridItem>
+      {/* <GridItem colSpan={2} px={[5, 5, 10]}> */}
+      {/*   eslint-disable-next-line jsx-a11y/media-has-caption */}
+      {/*  <video autoPlay loop poster="bag.png"> */}
+      {/*    <source */}
+      {/*      src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE" */}
+      {/*      type="video/mp4" */}
+      {/*    /> */}
+      {/*  </video> */}
+      {/* </GridItem> */}
       <GridItem colSpan={2} py={10} align="center">
-        <Image src="flatlay.png" />
+        <Image src="flatlay2.png" />
       </GridItem>
       <GridItem colSpan={2} align="center" p={6} pb="16">
         <HStack spacing={6}>
