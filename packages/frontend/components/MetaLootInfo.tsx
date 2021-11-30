@@ -122,7 +122,7 @@ export const MetaLootInfo: React.FC = () => {
   const onMint = async () => {
     if (!readAllowance.data || !readSalePrice.data) return;
 
-    if (!price || agldBalance - price <= 0) {
+    if (!price || agldBalance - price < 0) {
       alertModal.onOpen();
       return;
     }
