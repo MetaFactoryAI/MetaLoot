@@ -1,5 +1,4 @@
 import {
-  Button,
   Heading,
   Modal,
   ModalBody,
@@ -9,104 +8,146 @@ import {
   ModalOverlay,
   Stack,
   useRadioGroup,
-  VStack,
 } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
+import shallow from 'zustand/shallow';
 
 import { RadioButton } from '@/components/RadioButton';
-import { useQuery } from '@/graphql-client';
-import { isNotNullOrUndefined } from '@/lib/typeHelpers';
-import { CheckoutLineItem, LootMetadata } from '@/lib/types';
-
-const LOOT_PRODUCT_HANDLE = 'loot-bag-long-sleeve-shirt';
-
-export type Variant = {
-  id: string;
-  name: string;
-};
+import { ApparelSize, GloveSize } from '@/lib/types';
+import { useCheckoutStore } from '@/state/useCheckoutStore';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  selectedBag: LootMetadata | undefined;
-  addLineItem: (lineItem: CheckoutLineItem) => void;
 };
+
+const HOODIE_SIZES = [
+  ApparelSize.S,
+  ApparelSize.M,
+  ApparelSize.L,
+  ApparelSize.XL,
+  ApparelSize.XXL,
+  ApparelSize.XXXL,
+];
+
+const PANTS_SIZES = [
+  ApparelSize.S,
+  ApparelSize.M,
+  ApparelSize.L,
+  ApparelSize.XL,
+  ApparelSize.XXL,
+];
+
+const GLOVES_SIZES = [GloveSize.SM, GloveSize.LXL];
 
 export const ProductSelectModal: React.FC<Props> = ({
   // lootBags,
   isOpen,
   onClose,
-  selectedBag,
-  addLineItem,
+  children,
 }) => {
+  const [hoodieSize, setHoodieSize] = useCheckoutStore(
+    (s) => [s.hoodieSize, s.setHoodieSize],
+    shallow,
+  );
+  const [pantsSize, setPantsSize] = useCheckoutStore(
+    (s) => [s.pantsSize, s.setPantsSize],
+    shallow,
+  );
+  const [glovesSize, setGlovesSize] = useCheckoutStore(
+    (s) => [s.glovesSize, s.setGlovesSize],
+    shallow,
+  );
+
   const initialRef = useRef<HTMLButtonElement | null>(null);
-  const [selectedSize, setSelectedSize] = useState<string>('M');
 
-  const productQuery = useQuery();
-
-  const variants: Variant[] | undefined = productQuery
-    .productByHandle({ handle: LOOT_PRODUCT_HANDLE })
-    ?.variants({ first: 5 })
-    .edges.map((e) =>
-      e.node.id && e.node.title ? { id: e.node.id, name: e.node.title } : null,
-    )
-    .filter(isNotNullOrUndefined);
-
-  const { getRootProps, getRadioProps } = useRadioGroup({
-    name: 'size',
-    value: selectedSize,
-    onChange: setSelectedSize,
+  const hoodieSizeSelector = useRadioGroup({
+    name: 'hoodieSize',
+    value: hoodieSize || undefined,
+    onChange: setHoodieSize,
   });
 
-  const onAddToBag = () => {
-    if (!selectedSize || !selectedBag) return;
+  const pantsSizeSelector = useRadioGroup({
+    name: 'pantsSize',
+    value: pantsSize || undefined,
+    onChange: setPantsSize,
+  });
 
-    const variant = variants?.find((v) => v.name === selectedSize);
-
-    if (!variant) return;
-
-    addLineItem({
-      variantId: variant.id,
-      lootId: selectedBag.id,
-    });
-    onClose();
-  };
-
-  const radioGroupProps = getRootProps();
+  const glovesSizeSelector = useRadioGroup({
+    name: 'glovesSize',
+    value: glovesSize || undefined,
+    onChange: setGlovesSize,
+  });
 
   return (
     <Modal
       isCentered
       isOpen={isOpen}
       onClose={onClose}
-      size="xs"
       initialFocusRef={initialRef}
+      size="sm"
     >
       <ModalOverlay />
       <ModalContent borderRadius="none">
         <ModalCloseButton color="gray.300" />
         <ModalBody m={4}>
-          <VStack spacing={8}>
-            <Heading size="lg" fontWeight="normal">
-              Size
+          <Stack alignItems="center" spacing={4}>
+            <Heading fontSize="2xl" color="gray.500" fontWeight="normal">
+              Hoodie Size
             </Heading>
-            <Stack direction="row" spacing={0} {...radioGroupProps}>
-              {variants?.map((v) => (
+            <Stack
+              direction="row"
+              spacing={0}
+              {...hoodieSizeSelector.getRootProps()}
+            >
+              {HOODIE_SIZES?.map((v) => (
                 <RadioButton
-                  key={v.id || 0}
-                  {...getRadioProps({ value: v.name })}
+                  key={v || 0}
+                  {...hoodieSizeSelector.getRadioProps({ value: v })}
                 >
-                  {v.name}
+                  {v}
                 </RadioButton>
               ))}
             </Stack>
-          </VStack>
+            <Heading fontSize="2xl" color="gray.500" fontWeight="normal">
+              Sweatpants Size
+            </Heading>
+            <Stack
+              direction="row"
+              spacing={0}
+              {...pantsSizeSelector.getRootProps()}
+            >
+              {PANTS_SIZES?.map((v) => (
+                <RadioButton
+                  key={v || 0}
+                  {...pantsSizeSelector.getRadioProps({ value: v })}
+                >
+                  {v}
+                </RadioButton>
+              ))}
+            </Stack>
+            <Heading fontSize="2xl" color="gray.500" fontWeight="normal">
+              Gloves Size
+            </Heading>
+            <Stack
+              direction="row"
+              spacing={4}
+              {...glovesSizeSelector.getRootProps()}
+            >
+              {GLOVES_SIZES?.map((v) => (
+                <RadioButton
+                  key={v || 0}
+                  {...glovesSizeSelector.getRadioProps({ value: v })}
+                >
+                  {v}
+                </RadioButton>
+              ))}
+            </Stack>
+          </Stack>
         </ModalBody>
 
         <ModalFooter justifyContent="center" mb={1}>
-          <Button variant="primary" ref={initialRef} onClick={onAddToBag}>
-            Add to Bag
-          </Button>
+          {children}
         </ModalFooter>
       </ModalContent>
     </Modal>

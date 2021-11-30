@@ -20,6 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { AlertModal } from '@/components/AlertModal';
 import { EmptyState } from '@/components/EmptyState';
 import { LoadingState } from '@/components/LoadingState';
+import { NextChakraLink } from '@/components/NextChakraLink';
 import { CONFIG, TARGET_NETWORK } from '@/config';
 import { maybePluralize } from '@/lib/stringHelpers';
 import {
@@ -33,7 +34,9 @@ import { useTransactor } from '@/lib/useTransactor';
 
 import { AmountSelector } from './AmountSelector';
 
-const TOKEN_ID = '1';
+const DESCRIPTIION = `Luxury apparel for your Loot Bags. This token can be burned to craft a physical bag of 1/1 handcrafted apparel/accessories custom embroidered with the adventurer gear in your Loot Bag. Synthetic or OG Loot. Free shipping worldwide.`;
+
+const DESCRIPTIION2 = `Physical Content: Drawstring Bag, Hoodie, Sweatpants, Hat, Socks, Gaiter, Gloves. 3D Wearable NFTs available Q1'22.`;
 
 export const MetaLootInfo: React.FC = () => {
   const [isApproving, setIsApproving] = useState(false);
@@ -74,7 +77,7 @@ export const MetaLootInfo: React.FC = () => {
   const readTotalSupply = useTypedContractReader(
     metaLoot,
     'totalSupply',
-    TOKEN_ID,
+    CONFIG.redeemTokenId,
   )({ refetchInterval: 5000 });
   const readMaxSupply = useTypedContractReader(metaLoot, 'maxSupply')();
 
@@ -82,7 +85,7 @@ export const MetaLootInfo: React.FC = () => {
     metaLoot,
     'balanceOf',
     address || '',
-    TOKEN_ID,
+    CONFIG.redeemTokenId,
   )();
 
   const unitPrice =
@@ -98,7 +101,7 @@ export const MetaLootInfo: React.FC = () => {
 
   const hasEnoughAllowance = allowance >= price;
 
-  const { loading, nft, reload } = useMetaLootData(TOKEN_ID);
+  const { loading, nft, reload } = useMetaLootData(CONFIG.redeemTokenId);
 
   useEffect(() => {
     reload();
@@ -133,7 +136,6 @@ export const MetaLootInfo: React.FC = () => {
       const approveRes = await watchTx(approveTx);
       setIsApproving(false);
       readAllowance.refetch();
-      console.log({ approveRes });
       if (!approveRes) return;
     }
 
@@ -164,13 +166,21 @@ export const MetaLootInfo: React.FC = () => {
       mx={[4, 4, 2]}
     >
       <GridItem colSpan={[2, 2, 1]}>
-        <Image src="bag.png" maxW={[350, 400, 500]} />
+        {/*   eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video autoPlay loop poster="bag.png">
+          <source
+            src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE"
+            type="video/mp4"
+          />
+        </video>
+        {/* <Image src="bag.png" maxW={[350, 400, 500]} /> */}
       </GridItem>
 
       <GridItem colSpan={[2, 2, 1]}>
         <VStack spacing={6} align="flex-start">
           <Heading>{nft.name}</Heading>
-          <Text>{nft.description}</Text>
+          <Text>{DESCRIPTIION}</Text>
+          <Text>{DESCRIPTIION2}</Text>
           <HStack w="100%">
             <Button
               disabled={mintButtonDisabled}
@@ -207,29 +217,42 @@ export const MetaLootInfo: React.FC = () => {
             />
           </HStack>
 
-          <Button disabled onClick={onMint} w="100%" p={8} fontStyle="italic">
-            <Flex direction="column">
-              <Text>REDEMPTION COMING SOON</Text>
-              {numOwned ? (
+          <NextChakraLink
+            href="/redeem"
+            _hover={{
+              textDecoration: 'none',
+            }}
+            w="100%"
+          >
+            <Button
+              disabled={!numOwned}
+              w="100%"
+              p={8}
+              fontStyle={!numOwned ? 'italic' : undefined}
+              variant="outline"
+            >
+              <Flex direction="column">
+                <Text>CRAFT METALOOT</Text>
                 <Text fontSize="sm" color="yellow.700" mt={1}>
                   {`You have ${maybePluralize(numOwned, 'bag')}`}
                 </Text>
-              ) : null}
-            </Flex>
-          </Button>
+              </Flex>
+            </Button>
+          </NextChakraLink>
         </VStack>
       </GridItem>
-      <GridItem colSpan={2} align="center" mt={10}>
-        <Image src="flatlay.png" />
-      </GridItem>
-      <GridItem colSpan={2} py={10} px={[5, 5, 10]}>
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video autoPlay loop poster="bag.png">
-          <source
-            src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE"
-            type="video/mp4"
-          />
-        </video>
+
+      {/* <GridItem colSpan={2} px={[5, 5, 10]}> */}
+      {/*   eslint-disable-next-line jsx-a11y/media-has-caption */}
+      {/*  <video autoPlay loop poster="bag.png"> */}
+      {/*    <source */}
+      {/*      src="https://gateway.pinata.cloud/ipfs/QmTnapfDtgnaf3tTtWaUXocbL1fZ2qWmh2shTF4hYf6xBE" */}
+      {/*      type="video/mp4" */}
+      {/*    /> */}
+      {/*  </video> */}
+      {/* </GridItem> */}
+      <GridItem colSpan={2} py={10} align="center">
+        <Image src="flatlay2.png" />
       </GridItem>
       <GridItem colSpan={2} align="center" p={6} pb="16">
         <HStack spacing={6}>
