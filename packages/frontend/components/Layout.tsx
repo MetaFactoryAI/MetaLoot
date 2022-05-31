@@ -16,7 +16,7 @@ export const Layout: React.FC<Props> = ({
                                           children,
                                           stickyBottom,
                                           title = 'Swaps by Coldie | MetaFactory',
-                                          description = 'Premium Apparel for Adventurers',
+                                          description = 'Redeem Swaps Tees',
                                         }) => (
   <div>
     <Head>
