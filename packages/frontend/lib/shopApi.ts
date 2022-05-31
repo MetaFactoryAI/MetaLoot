@@ -13,66 +13,60 @@ const client = new GraphQLClient(CONFIG.shopEndpoint, {
 });
 
 export const useCheckout = (checkoutId: string | null | undefined) =>
-  useQuery<{ id: string; completedAt: string; orderStatusUrl: string }>(
-    ['checkout', checkoutId],
-    async () => {
-      if (!checkoutId) return null;
-      const res = await client.request(
-        gql`
-          query getCheckout($checkoutId: ID!) {
-            node(id: $checkoutId) {
-              id
-              ... on Checkout {
-                completedAt
-                orderStatusUrl
-              }
+useQuery<{ id: string; completedAt: string; orderStatusUrl: string }>(
+  ['checkout', checkoutId],
+  async () => {
+    if (!checkoutId) return null;
+    const res = await client.request(
+      gql`
+        query getCheckout($checkoutId: ID!) {
+          node(id: $checkoutId) {
+            id
+            ... on Checkout {
+              completedAt
+              orderStatusUrl
             }
           }
-        `,
-        { checkoutId },
-      );
-      return res.node;
-    },
-    {
-      refetchInterval: checkoutId ? 5000 : false,
-    },
-  );
+        }
+      `,
+      { checkoutId },
+    );
+    return res.node;
+  },
+  {
+    refetchInterval: checkoutId ? 5000 : false,
+  },
+);
 
-export const createMetaLootCheckout = async (
+export const createSwapsCheckout = async (
   {
     selectedBag,
-    hoodieSize,
-    pantsSize,
-    glovesSize,
     ethAddress,
-    burnTxHash,
   }: CheckoutOptions,
   signature: string,
 ): Promise<CheckoutData> =>
   resolved(() => {
+    const tokenId = selectedBag.tokenId || 'unknown tokenId';
     const createRes = mutation.checkoutCreate({
       input: {
         lineItems: [
           {
             quantity: 1,
             customAttributes: [
-              { key: 'bagNumber', value: selectedBag.id },
+              { key: 'tokenId', value: tokenId },
               {
-                key: 'isSynthetic',
-                value: selectedBag.synthetic ? 'true' : 'false',
+                key: 'name',
+                value: selectedBag.name,
               },
-              { key: 'hoodieSize', value: hoodieSize },
-              { key: 'pantsSize', value: pantsSize },
-              { key: 'glovesSize', value: glovesSize },
               { key: '__image', value: selectedBag.image },
               { key: '__signature', value: signature },
             ],
-            variantId: CONFIG.metalootVariantId,
+            variantId: CONFIG.swapsVariantId,
           },
         ],
         customAttributes: [
           { value: ethAddress, key: 'Ethereum Address' },
-          { value: burnTxHash, key: 'burnTxHash' },
+          { value: tokenId, key: 'tokenId' },
         ],
       },
     });

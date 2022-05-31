@@ -10,9 +10,9 @@ const adminClient = new GraphQLClient(CONFIG.shopAdminEndpoint, {
   },
 });
 
-const metaLootOrdersQuery = gql`
+const swapsOrdersQuery = gql`
   query metaLootOrders($after: String) {
-    orders(query: "tag:metaloot-redemption", first: 250, after: $after) {
+    orders(query: "tag:swaps-redemption", first: 250, after: $after) {
       pageInfo {
         hasNextPage
       }
@@ -30,18 +30,18 @@ const metaLootOrdersQuery = gql`
   }
 `;
 
-export const findOrderWithTxHash = (
+export const findOrderWithTokenId = (
   edges: OrderLineItemEdge[],
-  burnTxHash: string,
+  tokenId: string,
 ) =>
   edges.find((e) =>
-    e.node.customAttributes.find(({ value }) => value === burnTxHash),
+    e.node.customAttributes.find(({ value }) => value === tokenId),
   );
 
-export const getMetaLootOrderForTxHash = async (burnTxHash: string) => {
-  const res = await adminClient.request(metaLootOrdersQuery);
+export const getSwapsOrderForTokenId = async (tokenId: string) => {
+  const res = await adminClient.request(swapsOrdersQuery);
 
-  let existingOrder = findOrderWithTxHash(res.orders.edges, burnTxHash);
+  let existingOrder = findOrderWithTokenId(res.orders.edges, tokenId);
   if (existingOrder) {
     return existingOrder.node;
   }
@@ -49,10 +49,10 @@ export const getMetaLootOrderForTxHash = async (burnTxHash: string) => {
   // paginate results in case there's more than 250 orders
   if (res.orders.pageInfo.hasNextPage) {
     const lastEdge = res.orders.edges[res.orders.edges.length - 1];
-    const nextRes = await adminClient.request(metaLootOrdersQuery, {
+    const nextRes = await adminClient.request(swapsOrdersQuery, {
       after: lastEdge.cursor,
     });
-    existingOrder = findOrderWithTxHash(nextRes.orders.edges, burnTxHash);
+    existingOrder = findOrderWithTokenId(nextRes.orders.edges, tokenId);
     if (existingOrder) {
       return existingOrder.node;
     }
@@ -63,13 +63,13 @@ export const getMetaLootOrderForTxHash = async (burnTxHash: string) => {
 
 export const getMetaLootOrders = async (): Promise<OrderLineItemEdge[]> => {
   const orders = [];
-  const res = await adminClient.request(metaLootOrdersQuery);
+  const res = await adminClient.request(swapsOrdersQuery);
   orders.push(...res.orders.edges);
 
   // paginate results in case there's more than 250 orders
   if (res.orders.pageInfo.hasNextPage) {
     const lastEdge = res.orders.edges[res.orders.edges.length - 1];
-    const nextRes = await adminClient.request(metaLootOrdersQuery, {
+    const nextRes = await adminClient.request(swapsOrdersQuery, {
       after: lastEdge.cursor,
     });
     orders.push(...nextRes.orders.edges);

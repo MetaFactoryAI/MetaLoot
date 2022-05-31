@@ -1,10 +1,9 @@
-import { createIcon, DeleteIcon } from '@chakra-ui/icons';
+import { createIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
-  HStack,
-  IconButton,
   Image,
+  Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -19,47 +18,39 @@ const AddIcon = createIcon({
 type Props = {
   imageUrl: string;
   name: string;
-  synthetic: boolean;
   isInCart?: boolean;
   onCraft: () => void;
   onRemove?: () => void;
 };
 
 export const LootBagCard = React.memo<Props>(
-  ({ imageUrl, name, synthetic, isInCart, onCraft, onRemove }) => (
-    <Box overflow="hidden" maxW={500} w="100%" justifySelf="center">
-      <Image src={imageUrl} />
-      <HStack
-        align="center"
-        justify="space-between"
+  ({ imageUrl, name, onCraft }) => (
+    <Box overflow="hidden" maxW={500} justifySelf="center">
+      <Image src={imageUrl} w="100%" />
+      <Stack
+        align="flex-start"
+        // justify="space-between"
         borderWidth={2}
         borderTopWidth={0}
         borderColor="black"
         p={4}
+        spacing={3}
         bg={useColorModeValue('white', 'gray.800')}
       >
         <Box>
           <Text fontSize="base" fontWeight="bold">
-            {synthetic ? 'Synthetic Bag' : name}
+            {name}
           </Text>
         </Box>
-        {isInCart && onRemove ? (
-          <IconButton
-            variant="outline"
-            aria-label="Remove From Cart"
-            onClick={onRemove}
-            icon={<DeleteIcon />}
-          />
-        ) : (
-          <Button
-            variant="primary"
-            leftIcon={<AddIcon w={3} h={3} mr={0} />}
-            onClick={onCraft}
-          >
-            Craft
-          </Button>
-        )}
-      </HStack>
+        <Button
+          mt={4}
+          variant="primary"
+          leftIcon={<AddIcon w={3} h={3} mr={0} />}
+          onClick={onCraft}
+        >
+          Redeem
+        </Button>
+      </Stack>
     </Box>
   ),
 );

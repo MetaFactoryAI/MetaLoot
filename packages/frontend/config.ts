@@ -10,8 +10,7 @@ interface IConfig {
   shopAdminToken: string;
   openseaApiKey: string;
   openseaUrl: string;
-  metalootProductHandle: string;
-  metalootVariantId: string;
+  swapsVariantId: string;
   itemPrice: number;
   redeemTokenId: string;
 }
@@ -40,11 +39,7 @@ export const CONFIG: IConfig = {
   infuraId: parseEnv(process.env.NEXT_PUBLIC_INFURA_ID),
   poktId: parseEnv(process.env.NEXT_PUBLIC_POKT_ID),
   openseaApiKey: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_API_KEY, ''),
-  metalootProductHandle: parseEnv(
-    process.env.NEXT_PUBLIC_METALOOT_PRODUCT_HANDLE,
-    '',
-  ),
-  metalootVariantId: parseEnv(process.env.METALOOT_VARIANT_ID, ''),
+  swapsVariantId: parseEnv(process.env.SWAPS_VARIANT_ID, ''),
   itemPrice: parseEnv(process.env.NEXT_PUBLIC_ITEM_PRICE, 420),
   onboardDappId: parseEnv(process.env.NEXT_PUBLIC_ONBOARD_DAPP_ID, ''),
   openseaUrl: parseEnv(process.env.NEXT_PUBLIC_OPENSEA_URL, ''),

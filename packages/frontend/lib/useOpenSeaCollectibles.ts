@@ -9,32 +9,42 @@ import { LootMetadata } from './types';
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useLoot = (address: string | null) =>
+export const useSwaps = (address: string | null) =>
   useQuery(
-    ['openseaLoot', address],
+    ['openseaSwaps', address],
     async () => {
       if (!address) return null;
 
-      return fetchLoot(address);
+      return fetchSwaps(address);
     },
     { enabled: Boolean(address) },
   );
 
-const fetchLoot = async (owner: string): Promise<Array<LootMetadata>> => {
+export const fetchSwaps = async (owner: string): Promise<Array<LootMetadata>> => {
   const query = {
     owner,
     limit: 50,
-    asset_contract_address: '0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7',
+    asset_contract_address: '0xcd327d27f64b9bd998c7fde6bf279ad542750826',
   };
   const data = await fetchOpenSeaData(query);
 
   return data.map((d) => ({
-    id: d.name,
-    image: d.imageUrl,
+    image: d.imageUrl.replace('=s250', '=s420'),
     name: d.name,
     description: d.description,
-    synthetic: false,
+    tokenId: d.tokenId,
   }));
+};
+
+export const fetchOwnerOfSwap = async (tokenId: string): Promise<string | null> => {
+  const query = {
+    token_ids: [tokenId],
+    limit: 1,
+    asset_contract_address: '0xcd327d27f64b9bd998c7fde6bf279ad542750826',
+  };
+  const data = await fetchOpenSeaData(query);
+
+  return data[0]?.owner.address
 };
 
 const fetchOpenSeaData = async (

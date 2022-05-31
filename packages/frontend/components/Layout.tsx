@@ -1,8 +1,6 @@
-import { Container, Flex, Heading, HStack } from '@chakra-ui/react';
+import { Container, Flex, HStack, Image } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { ReactNode } from 'react';
-
-import { TokenBalance } from '@/components/TokenBalance';
 
 import { LoginButton } from './LoginButton';
 import { NextChakraLink } from './NextChakraLink';
@@ -15,25 +13,25 @@ type Props = {
 };
 
 export const Layout: React.FC<Props> = ({
-  children,
-  stickyBottom,
-  title = 'MetaLoot',
-  description = 'Premium Apparel for Adventurers',
-}) => (
+                                          children,
+                                          stickyBottom,
+                                          title = 'Swaps by Coldie | MetaFactory',
+                                          description = 'Premium Apparel for Adventurers',
+                                        }) => (
   <div>
     <Head>
       <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta property="og:title" content={title} key="ogtitle" />
-      <meta property="og:description" content={description} key="ogdesc" />
+      <meta name="description" content={description}/>
+      <meta property="og:title" content={title} key="ogtitle"/>
+      <meta property="og:description" content={description} key="ogdesc"/>
       <meta
         property="og:image"
-        content="https://loot.metafactory.ai/banner.png"
+        content="https://swaps.metafactory.ai/banner.png"
         key="ogimage"
       />
-      <meta name="twitter:creator" content="@TheMetaFactory" key="twhandle" />
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="twitter:creator" content="@Coldie" key="twhandle"/>
+      <meta charSet="utf-8"/>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     </Head>
     <Container maxW="container.lg">
       <header>
@@ -48,14 +46,12 @@ export const Layout: React.FC<Props> = ({
                 textDecoration: 'none',
               }}
             >
-              <Heading size="lg" pointerEvents="none" mx={[2, 4]}>
-                MetaLoot
-              </Heading>
+              <Image src="swaps-logo-wide.png" height={75} display={['none', 'flex']} alt="Swaps by Coldie"/>
+              <Image src="swaps-logo.png" height={75} display={['flex', 'none']} my={2} alt="Swaps by Coldie"/>
             </NextChakraLink>
           </nav>
           <HStack spacing={[2, 4]}>
-            <TokenBalance />
-            <LoginButton />
+            <LoginButton/>
           </HStack>
         </Flex>
       </header>

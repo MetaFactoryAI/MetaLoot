@@ -57,7 +57,7 @@ export const theme = extendTheme({
     md: '0',
   },
   fonts: {
-    heading: '"EB Garamond", serif',
+    heading: '"Inter", sans-serif',
     mono: 'Jetbrains Mono, monospace',
     body: 'Jetbrains Mono, monospace',
   },

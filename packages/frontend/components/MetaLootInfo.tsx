@@ -30,6 +30,7 @@ import {
   useMetaLootData,
   useTypedContractReader,
 } from '@/lib/useContracts';
+import { useSwapsBalance } from "@/lib/useSwaps";
 import { useTransactor } from '@/lib/useTransactor';
 
 import { AmountSelector } from './AmountSelector';
@@ -48,7 +49,7 @@ export const MetaLootInfo: React.FC = () => {
   const agld = useAGLDContract();
   const agldBalance = useAgldBalance();
   const alertModal = useDisclosure();
-
+  const swapsBalance = useSwapsBalance();
   const numberInputProps = useNumberInput({
     step: 1,
     defaultValue: 1,
@@ -59,6 +60,9 @@ export const MetaLootInfo: React.FC = () => {
   useEffect(() => {
     onboard?.walletCheck();
   }, [onboard]);
+  useEffect(() => {
+    console.log({ swapsBalance });
+  }, [swapsBalance]);
 
   const readAllowance = useTypedContractReader(
     agld,

@@ -41,7 +41,6 @@ export const getSignatureForCheckout = async (
   const serializedOptions = JSON.stringify(opts);
   const orderMessage = `${MESSAGE}${serializedOptions}`;
   const signature = await requestSignature(provider, orderMessage);
-  console.log({ signature, orderMessage });
 
   return { signature, orderMessage };
 };
@@ -49,7 +48,7 @@ export const getSignatureForCheckout = async (
 export const getCheckoutUrlForOrder = async (
   opts: CheckoutOptions,
   provider: providers.Web3Provider,
-): Promise<CheckoutData | null> => {
+): Promise<CheckoutData | { error: Error }> => {
   const data = await getSignatureForCheckout(opts, provider);
 
   try {
@@ -57,8 +56,13 @@ export const getCheckoutUrlForOrder = async (
       method: 'POST',
       body: JSON.stringify(data),
     });
+    if(!res.ok) {
+      const errorText = await res.text();
+      throw new Error(errorText)
+    }
+
     return (await res.json()) as CheckoutData;
   } catch (e) {
-    return null;
+    return {  error: e as Error };
   }
 };

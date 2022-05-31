@@ -18,7 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "tsBuildInfoFile": "out/.tsbuildinfo",
+    "tsBuildInfoFile": ".next/.tsbuildinfo",
     "jsx": "preserve",
     "baseUrl": ".",
     "noEmit": true,

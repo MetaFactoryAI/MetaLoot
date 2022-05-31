@@ -1,13 +1,56 @@
 import { useColorModeValue } from '@chakra-ui/react';
 import { WalletProvider } from '@meta-cred/usewallet';
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+import { configureChains, createClient, defaultChains, WagmiConfig } from 'wagmi'
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { infuraProvider } from 'wagmi/providers/infura'
+import { publicProvider } from 'wagmi/providers/public'
 
 import { CONFIG, TARGET_NETWORK } from '@/config';
 import { ContractDataProvider } from '@/contexts/ContractDataProvider';
 
 const APP_NAME = 'MetaLoot';
 
-export const ThemedWalletProvider: React.FC = ({ children }) => {
+// Configure chains & providers with the Alchemy provider.
+// Two popular providers are Alchemy (alchemy.com) and Infura (infura.io)
+const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
+  infuraProvider({ infuraId: CONFIG.infuraId }),
+  publicProvider(),
+])
+
+// Set up client
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors: [
+    new MetaMaskConnector({ chains }),
+    new CoinbaseWalletConnector({
+      chains,
+      options: {
+        appName: 'MetaFactory',
+      },
+    }),
+    new WalletConnectConnector({
+      chains,
+      options: {
+        qrcode: true,
+      },
+    }),
+    new InjectedConnector({
+      chains,
+      options: {
+        name: 'Injected',
+        shimDisconnect: true,
+      },
+    }),
+  ],
+  provider,
+  webSocketProvider,
+})
+
+export const ThemedWalletProvider: FC = ({ children }) => {
   const isDark = useColorModeValue(false, true);
 
   const wallets = useMemo(
@@ -50,7 +93,9 @@ export const ThemedWalletProvider: React.FC = ({ children }) => {
         },
       }}
     >
-      <ContractDataProvider>{children}</ContractDataProvider>
+      <WagmiConfig client={wagmiClient}>
+        <ContractDataProvider>{children}</ContractDataProvider>
+      </WagmiConfig>
     </WalletProvider>
   );
 };

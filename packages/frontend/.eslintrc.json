@@ -60,7 +60,7 @@
   "overrides": [
     {
       // assuming Next.js application
-      "files": "**/pages/**/*.{ts,tsx}",
+      "files": ["**/pages/**/*.{ts,tsx}", "eth-sdk/config.ts"],
       "rules": {
         "react/react-in-jsx-scope": "off", // react is a global in this folder
         "import/no-default-export": "off", // pages have to have a default export

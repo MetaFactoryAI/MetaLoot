@@ -1,6 +1,4 @@
-import '@fontsource/eb-garamond/500.css';
-import '@fontsource/eb-garamond/600.css';
-import '@fontsource/eb-garamond/400-italic.css';
+import "@fontsource/inter"
 import '@fontsource/jetbrains-mono/500.css';
 
 import { ChakraProvider } from '@chakra-ui/react';

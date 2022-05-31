@@ -8,10 +8,10 @@ export type Collectible = {
 };
 
 export type LootMetadata = {
-  id: string;
   name: string;
   image: string;
-  synthetic: boolean;
+  description: string;
+  tokenId: string | null;
 };
 
 export type CheckoutData = {
@@ -40,9 +40,5 @@ export enum GloveSize {
 
 export type CheckoutOptions = {
   selectedBag: LootMetadata;
-  hoodieSize: string;
-  pantsSize: string;
-  glovesSize: string;
   ethAddress: string;
-  burnTxHash: string;
 };
