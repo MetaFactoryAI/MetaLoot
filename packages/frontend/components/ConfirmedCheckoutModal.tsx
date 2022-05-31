@@ -37,7 +37,7 @@ export const ConfirmedCheckoutModal: React.FC<Props> = ({
       <ModalHeader>
         <Heading fontSize="3xl">
           {checkoutCompleteUrl
-            ? 'Enjoy your MetaLoot'
+            ? 'Enjoy your Swaps Tee'
             : 'Confirm shipping details to place your order'}
         </Heading>
       </ModalHeader>

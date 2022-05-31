@@ -12,7 +12,7 @@ import { publicProvider } from 'wagmi/providers/public'
 import { CONFIG, TARGET_NETWORK } from '@/config';
 import { ContractDataProvider } from '@/contexts/ContractDataProvider';
 
-const APP_NAME = 'MetaLoot';
+const APP_NAME = 'Swaps';
 
 // Configure chains & providers with the Alchemy provider.
 // Two popular providers are Alchemy (alchemy.com) and Infura (infura.io)
@@ -83,7 +83,7 @@ export const ThemedWalletProvider: FC = ({ children }) => {
       infuraKey={CONFIG.infuraId}
       rpcUrl={TARGET_NETWORK.rpcUrl}
       darkMode={isDark}
-      appName="MetaLoot"
+      appName={APP_NAME}
       customOptions={{
         networkId: TARGET_NETWORK.chainId,
         networkName: TARGET_NETWORK.name,
