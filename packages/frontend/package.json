@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "yarn generate && next build",
     "start": "next start",
-    "generate": "gqless generate",
+    "generate": "eth-sdk",
     "typecheck": "tsc",
     "lint": "eslint \"*/**/*.{ts,tsx,js,jsx}\" --fix",
     "format": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\""
